@@ -36,6 +36,9 @@ $uni-bg-color-mask:rgba(0, 0, 0, 0.4);//遮罩颜色
 /* 边框颜色 */
 $uni-border-color:#c8c7cc;
 
+/* 阴影颜色 */
+$uni-shadow-color:#808080;
+
 /* 尺寸变量 */
 
 /* 文字尺寸 */
@@ -74,3 +77,20 @@ $uni-color-subtitle: #555555; // 二级标题颜色
 $uni-font-size-subtitle:26px;
 $uni-color-paragraph: #3F536E; // 文章段落颜色
 $uni-font-size-paragraph:15px;
+
+/* 全局主题色 */
+
+$theme-blue-one: #009bbd;
+$theme-blue-two: #007ca7;
+$theme-blue-three: #005597;
+$theme-blue-four: #1a296b;
+$theme-blue-five: #18194f;
+
+$theme-orange: #f39200;
+$theme-red: #d80f2a;
+$theme-yellow: #f8c400;
+$theme-green: #26a04a;
+
+/* 头像尺寸 */
+
+$avatar-size: 550rpx;

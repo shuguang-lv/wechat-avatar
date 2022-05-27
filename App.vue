@@ -55,7 +55,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	/*每个页面公共css*/
 	@import url("./static/icon/icon.css");
 </style>

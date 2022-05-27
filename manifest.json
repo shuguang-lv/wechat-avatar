@@ -1,6 +1,6 @@
 {
     "name" : "photo",
-    "appid" : "__UNI__D8A5A02",
+    "appid" : "__UNI__225C1AB",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx677cdf0c74ecfebf",
+        "appid" : "wxf749654790c1c0f1",
         "setting" : {
             "urlCheck" : true
         },
