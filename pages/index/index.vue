@@ -51,16 +51,16 @@
 			</scroll-view>
 		</view>
 		<view class="btn-card">
-			<view v-if="userInfo" class="btn-right">
+			<view class="btn-right">
 				<button class="primary-btn action-btn" @click.stop="getUserProfile('createImages')">获取头像</button>
 				<button class="primary-btn" @click.stop="chooseImages('selectedImage')">选择图片</button>
 			</view>
-			<view v-else class="btn-right">
+			<!-- 			<view v-else class="btn-right">
 				<button class="primary-btn action-btn" open-type="getUserInfo"
 					@click.stop="getUserProfile('createImages')">获取头像</button>
 				<button class="primary-btn" open-type="getUserInfo"
 					@click.stop="getUserProfile('selectedImage')">选择图片</button>
-			</view>
+			</view> -->
 			<view class="btn-right">
 				<button open-type="share" class="primary-btn share-btn" @click.stop>分享给好友</button>
 				<view class="save-btn btn-right" @click.stop="shareFc()">
@@ -69,14 +69,14 @@
 				</view>
 			</view>
 		</view>
-		<button v-if="userInfo" class="history-btn" @click.stop="navOriginal()">
+		<button class="history-btn" @click.stop="navOriginal()">
 			查看原头像
 			<view class="icon-div"><text class="iconfont icon-xiangzuo"></text></view>
 		</button>
-		<button v-else class="history-btn" open-type="getUserInfo" @click.stop="getUserProfile('userLogin')">
+<!-- 		<button v-else class="history-btn" open-type="getUserInfo" @click.stop="getUserProfile('userLogin')">
 			查看原头像
 			<view class="icon-div"><text class="iconfont icon-xiangzuo"></text></view>
-		</button>
+		</button> -->
 		<!-- 		<view class="ad-div" v-if="adState && adInfo && adInfo.imageUrl">
 			<view class="icon-guanbi iconfont" @click.stop="adState = false"></view>
 			<view class="ad-card" v-if="adInfo && adInfo.imageUrl"
@@ -136,7 +136,7 @@
 		onLoad() {
 			this.init();
 			this.initBg();
-			// this.getCategoriesList();
+			this.getCategoriesList();
 		},
 		onShow() {
 			this.getShareInfo();
@@ -242,7 +242,7 @@
 						name: 'images',
 						data: {
 							type: 'mpweixin',
-							// categoryId: id
+							categoryId: id
 						}
 					})
 					.then(res => {
@@ -503,8 +503,6 @@
 								});
 							},
 							fail: () => {
-								context.translate(this.mask_center_x, this.mask_center_y);
-								context.rotate((this.rotate * Math.PI) / 180);
 								context.draw(false, () => {
 									this.saveCans();
 								});
@@ -632,7 +630,7 @@
 							_this.avatarImage = info.substring(0, info.lastIndexOf('/') + 1) + '0';
 							uni.setStorageSync('avatar_image', _this.avatarImage);
 						}
-						_this.postUserInfo(result.userInfo.nickName, type);
+						// _this.postUserInfo(result.userInfo.nickName, type);
 					},
 					fail(fall) {}
 				});
@@ -669,6 +667,14 @@
 						} else if (type === 'selectedImage') {
 							this.chooseImages(type);
 						}
+					})
+					.catch(err => {
+						console.log(err)
+						uni.showToast({
+							icon: 'error',
+							position: 'center',
+							title: "用户数据存储失败",
+						})
 					});
 			},
 			/**
@@ -682,24 +688,28 @@
 					sourceType: ['album', 'camera'], //从相册选择
 					success: res => {
 						let filePath = res.tempFilePaths[0];
+						// this.avatarImage = res.tempFilePaths[0];
 						uniCloud
 							.uploadFile({
 								filePath: filePath,
 								cloudPath: `userChooseImage-${new Date().getTime()}.png`
 							})
 							.then(res => {
-								this.avatarImage = res['fileID'];
 								//获取到上传到云储存的url地址
-								uniCloud
-									.callFunction({
-										name: 'user_mpweixin',
-										data: {
-											userId: this.userInfo._id,
-											avatarImage: this.avatarImage,
-											type
-										}
-									})
-									.then();
+								uniCloud.getTempFileURL({fileList: [res['fileID']]}).then(res => {
+									this.avatarImage=res.fileList[0].tempFileURL
+								})
+								//获取到上传到云储存的url地址
+								// uniCloud
+								// 	.callFunction({
+								// 		name: 'user_mpweixin',
+								// 		data: {
+								// 			userId: this.userInfo._id,
+								// 			avatarImage: this.avatarImage,
+								// 			type
+								// 		}
+								// 	})
+								// 	.then();
 							});
 					}
 				});
@@ -736,7 +746,7 @@
 			background-color: $uni-bg-color-grey;
 			margin: 50rpx;
 			border-radius: $uni-border-radius-lg;
-			padding: 0 40rpx 30rpx;
+			padding: 30rpx;
 			position: relative;
 
 			.top-title {
@@ -760,9 +770,10 @@
 			.image-div {
 				display: flex;
 				align-items: center;
-				padding-left: 20rpx;
-				padding-bottom: 20rpx;
-				background-color: $uni-bg-color;
+				// padding-left: 20rpx;
+				// padding-bottom: 20rpx;
+				// padding-top: 20rpx;
+				// background-color: $uni-bg-color;
 
 				image {
 					width: 120rpx;

@@ -279,7 +279,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
   onLoad: function onLoad() {
     this.init();
     this.initBg();
-    // this.getCategoriesList();
+    this.getCategoriesList();
   },
   onShow: function onShow() {
     this.getShareInfo();
@@ -384,9 +384,9 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
       callFunction({
         name: 'images',
         data: {
-          type: 'mpweixin'
-          // categoryId: id
-        } }).
+          type: 'mpweixin',
+          categoryId: id } }).
+
 
       then(function (res) {
         _this5.imageList = res.result.data;
@@ -646,8 +646,6 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                         });
                       },
                       fail: function fail() {
-                        context.translate(_this10.mask_center_x, _this10.mask_center_y);
-                        context.rotate(_this10.rotate * Math.PI / 180);
                         context.draw(false, function () {
                           _this10.saveCans();
                         });
@@ -775,7 +773,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                       _this.avatarImage = info.substring(0, info.lastIndexOf('/') + 1) + '0';
                       uni.setStorageSync('avatar_image', _this.avatarImage);
                     }
-                    _this.postUserInfo(result.userInfo.nickName, type);
+                    // _this.postUserInfo(result.userInfo.nickName, type);
                   },
                   fail: function fail(fall) {} });case 2:case "end":return _context3.stop();}}}, _callee3);}))();
 
@@ -812,6 +810,14 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                   } else if (type === 'selectedImage') {
                     _this13.chooseImages(type);
                   }
+                }).
+                catch(function (err) {
+                  console.log(err);
+                  uni.showToast({
+                    icon: 'error',
+                    position: 'center',
+                    title: "用户数据存储失败" });
+
                 });case 6:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     /**
@@ -825,24 +831,28 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
         sourceType: ['album', 'camera'], //从相册选择
         success: function success(res) {
           var filePath = res.tempFilePaths[0];
+          // this.avatarImage = res.tempFilePaths[0];
           uniCloud.
           uploadFile({
             filePath: filePath,
             cloudPath: "userChooseImage-".concat(new Date().getTime(), ".png") }).
 
           then(function (res) {
-            _this14.avatarImage = res['fileID'];
             //获取到上传到云储存的url地址
-            uniCloud.
-            callFunction({
-              name: 'user_mpweixin',
-              data: {
-                userId: _this14.userInfo._id,
-                avatarImage: _this14.avatarImage,
-                type: type } }).
-
-
-            then();
+            uniCloud.getTempFileURL({ fileList: [res['fileID']] }).then(function (res) {
+              _this14.avatarImage = res.fileList[0].tempFileURL;
+            });
+            //获取到上传到云储存的url地址
+            // uniCloud
+            // 	.callFunction({
+            // 		name: 'user_mpweixin',
+            // 		data: {
+            // 			userId: this.userInfo._id,
+            // 			avatarImage: this.avatarImage,
+            // 			type
+            // 		}
+            // 	})
+            // 	.then();
           });
         } });
 

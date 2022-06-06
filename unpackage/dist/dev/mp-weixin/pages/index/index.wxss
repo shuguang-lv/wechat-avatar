@@ -41,7 +41,7 @@
   background-color: #f8f8f8;
   margin: 50rpx;
   border-radius: 6px;
-  padding: 0 40rpx 30rpx;
+  padding: 30rpx;
   position: relative;
 }
 .content .top-content .top-title.data-v-57280228 {
@@ -62,9 +62,6 @@
 .content .top-content .image-div.data-v-57280228 {
   display: flex;
   align-items: center;
-  padding-left: 20rpx;
-  padding-bottom: 20rpx;
-  background-color: #ffffff;
 }
 .content .top-content .image-div image.data-v-57280228 {
   width: 120rpx;
