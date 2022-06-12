@@ -72,6 +72,9 @@
 .content .top-content .image-div .image-margin.data-v-57280228 {
   margin: 0 20rpx;
 }
+.content .top-content .image-div .image-border.data-v-57280228 {
+  border: 5rpx solid #c8c7cc;
+}
 .content .image-card.data-v-57280228 {
   display: flex;
   justify-content: center;
@@ -132,17 +135,17 @@
   height: 100%;
 }
 .content .btn-card.data-v-57280228 {
-  margin-bottom: 50rpx;
   box-sizing: border-box;
   width: 660rpx;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
 .content .btn-card .primary-btn.data-v-57280228 {
   display: inline-flex;
   align-items: center;
-  margin-right: 20rpx;
+  margin-right: 30rpx;
   background: #005597;
   border-radius: 6px;
   color: #fff;
@@ -159,13 +162,15 @@
   font-weight: bold;
 }
 .content .btn-card .share-btn.data-v-57280228 {
-  background: #007ca7;
+  background: #f39200;
   border: none;
   font-weight: normal;
+  border-radius: 50rpx;
 }
 .content .btn-card .btn-right.data-v-57280228 {
   display: flex;
   align-items: center;
+  margin-bottom: 30rpx;
 }
 .content .btn-card .save-btn.data-v-57280228 {
   color: #007ca7;
@@ -187,6 +192,7 @@
   display: inline-block;
   -webkit-transform: rotateY(180deg);
           transform: rotateY(180deg);
+  margin-left: 10rpx;
 }
 .content .history-btn .icon-div .icon-xiangzuo.data-v-57280228 {
   font-size: 30rpx;

@@ -9,7 +9,7 @@
 		}, {
 			"path": "pages/original-avatar/original-avatar",
 			"style": {
-				"navigationBarTitleText": "原始头像"
+				"navigationBarTitleText": "Original Avatar"
 				// "navigationStyle": "custom",
 				// "navigationBarTextStyle": "white",
 				// "enablePullDownRefresh": false
@@ -18,7 +18,7 @@
 		}, {
 			"path": "pages/save-success/save-success",
 			"style": {
-				"navigationBarTitleText": "保存头像"
+				"navigationBarTitleText": "Save Avatar"
 				// "navigationStyle": "custom",
 				// "navigationBarTextStyle": "white",
 				// "enablePullDownRefresh": false
@@ -43,7 +43,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "UNNC Summer 2022 Graduation",
+		"navigationBarTitleText": "UNNC Graduation",
 		"navigationBarBackgroundColor": "#1a296b",
 		"backgroundColor": "#F8F8F8"
 	}

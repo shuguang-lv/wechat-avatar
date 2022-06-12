@@ -9,7 +9,7 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 5);
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));
 var _originalAvatar = _interopRequireDefault(__webpack_require__(/*! ./pages/original-avatar/original-avatar.vue */ 30));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
 createPage(_originalAvatar.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
@@ -174,7 +174,7 @@ var _default = (_data$onLoad$onShareA = {
       */
   getUserImagesByOpenId: function getUserImagesByOpenId() {var _this = this;
     uni.showLoading({
-      title: '加载中',
+      title: 'Loading...',
       mask: true });var _uni$getStorageSync =
 
 
@@ -193,7 +193,7 @@ var _default = (_data$onLoad$onShareA = {
     }).
     catch(function (err) {
       uni.showModal({
-        content: err.message || '请求服务失败',
+        content: err.message || 'Fail to request service',
         showCancel: false });
 
     }).
@@ -219,9 +219,9 @@ var _default = (_data$onLoad$onShareA = {
             fail: function fail(e) {
               uni.hideLoading();
               wx.showModal({
-                content: '检测到您没打开下载图片功能权限，是否去设置打开？',
-                confirmText: '确认',
-                cancelText: '取消',
+                content: 'It is detected that image downloading function is not permitted. Do you want to enable it now ?',
+                confirmText: 'Yes',
+                cancelText: 'No',
                 success: function success(res) {
                   //点击“确认”时打开设置页面
                   if (res.confirm) {
@@ -253,14 +253,14 @@ var _default = (_data$onLoad$onShareA = {
             success: function success() {
               uni.hideLoading();
               uni.showToast({
-                title: '保存成功',
+                title: 'Saved successfully',
                 icon: 'none' });
 
             },
             fail: function fail() {
               uni.hideLoading();
               uni.showToast({
-                title: '保存失败',
+                title: 'Fail to save',
                 icon: 'none' });
 
             } });

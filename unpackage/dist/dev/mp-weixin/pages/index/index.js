@@ -25,7 +25,7 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 5);
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));
 var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
 createPage(_index.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
@@ -106,10 +106,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    lClipper: function() {
+      return Promise.all(/*! import() | uni_modules/lime-clipper/components/l-clipper/l-clipper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/lime-clipper/components/l-clipper/l-clipper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/lime-clipper/components/l-clipper/l-clipper.vue */ 45))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.avatarImage = $event.url
+      _vm.showClipper = false
+    }
+
+    _vm.e1 = function($event) {
+      _vm.showClipper = false
+    }
+
+    _vm.e2 = function($event) {
+      _vm.showClipper = true
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -229,6 +266,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var _app2 = _interopRequireDefault(__webpack_require__(/*! @/util/QS-SharePoster/app.js */ 23));
 var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoster.js */ 24);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 
@@ -237,6 +279,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
 {
   data: function data() {
     return {
+      showClipper: false,
       poster: {},
       posterImage: '',
       canvasId: 'default_PosterCanvasId',
@@ -309,7 +352,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
               */
     getShareInfo: function getShareInfo() {var _this3 = this;
       uni.showLoading({
-        title: '加载中',
+        title: 'Loading...',
         mask: true });
 
       uniCloud.
@@ -330,7 +373,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
       }).
       catch(function (err) {
         uni.showModal({
-          content: err.message || '请求服务失败',
+          content: err.message || 'Fail to request service',
           showCancel: false });
 
       }).
@@ -343,7 +386,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
         */
     getCategoriesList: function getCategoriesList() {var _this4 = this;
       uni.showLoading({
-        title: '加载中',
+        title: 'Loading...',
         mask: true });
 
       uniCloud.
@@ -363,7 +406,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
       }).
       catch(function (err) {
         uni.showModal({
-          content: err.message || '请求服务失败',
+          content: err.message || 'Fail to request service',
           showCancel: false });
 
       }).
@@ -377,7 +420,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
         */
     getImagesList: function getImagesList(id, num, state) {var _this5 = this;
       uni.showLoading({
-        title: '加载中',
+        title: 'Loading...',
         mask: true });
 
       uniCloud.
@@ -404,7 +447,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
       }).
       catch(function (err) {
         uni.showModal({
-          content: err.message || '请求服务失败',
+          content: err.message || 'Fail to request service',
           showCancel: false });
 
       }).
@@ -555,8 +598,9 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
         * @param {Object} item
         * 图片点击事件
         */
-    imageClick: function imageClick(item) {
+    imageClick: function imageClick(item, index) {
       this.currentImage = item;
+      this.currentIndex = index;
       if (!(this.currentImage && this.currentImage.drag_state)) {
         this.initImage();
       }
@@ -605,7 +649,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
             resolve(res.code);
           },
           fail: function fail(err) {
-            reject(new Error('微信登录失败'));
+            reject(new Error('Fail to login'));
           } });
 
       });
@@ -616,13 +660,13 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
     shareFc: function shareFc() {var _this10 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var context, cansBorder, mask_size;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (
                 _this10.avatarImage) {_context2.next = 3;break;}
                 uni.showToast({
-                  title: '请先获取头像',
+                  title: 'Please fetch your avatar first',
                   icon: 'none' });return _context2.abrupt("return");case 3:
 
 
 
                 uni.showLoading({
-                  title: '加载中',
+                  title: 'Loading...',
                   mask: true });
 
                 context = uni.createCanvasContext('default_PosterCanvasId', _this10);
@@ -693,9 +737,9 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
               fail: function fail(e) {
                 uni.hideLoading();
                 wx.showModal({
-                  content: '检测到您没打开下载图片功能权限，是否去设置打开？',
-                  confirmText: '确认',
-                  cancelText: '取消',
+                  content: 'It is detected that image downloading function is not permitted. Do you want to enable it now ?',
+                  confirmText: 'Yes',
+                  cancelText: 'No',
                   success: function success(res) {
                     //点击“确认”时打开设置页面
                     if (res.confirm) {
@@ -721,13 +765,17 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
       uni.saveImageToPhotosAlbum({
         filePath: _self.posterImage,
         success: function success() {
-          _self.saveImageInfo();
+          // _self.saveImageInfo();
           uni.setStorageSync('currentImage', _self.posterImage);
+          uni.hideLoading();
+          uni.navigateTo({
+            url: '/pages/save-success/save-success' });
+
         },
         fail: function fail(e) {
           uni.hideLoading();
           uni.showToast({
-            title: '保存失败',
+            title: 'Fail to save',
             icon: 'none' });
 
         } });
@@ -759,7 +807,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
     getUserProfile: function getUserProfile(type) {var _this12 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _this;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
                 _this = _this12;
                 uni.getUserProfile({
-                  desc: '获取您的头像信息',
+                  desc: 'Fetch avatar information',
                   success: function success(result) {
                     var data = {
                       code: _this.code,
@@ -773,9 +821,16 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                       _this.avatarImage = info.substring(0, info.lastIndexOf('/') + 1) + '0';
                       uni.setStorageSync('avatar_image', _this.avatarImage);
                     }
-                    // _this.postUserInfo(result.userInfo.nickName, type);
+                    _this.postUserInfo(result.userInfo.nickName, type);
                   },
-                  fail: function fail(fall) {} });case 2:case "end":return _context3.stop();}}}, _callee3);}))();
+                  fail: function fail(fall) {
+                    console.log(fall);
+                    uni.showToast({
+                      icon: 'error',
+                      position: 'center',
+                      title: "Fail to fetch avatar information" });
+
+                  } });case 2:case "end":return _context3.stop();}}}, _callee3);}))();
 
     },
     /**
@@ -787,7 +842,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                   _this13.getWeixinCode());case 3:_this13.code = _context4.sent;
                 if (type === 'userLogin' || type === 'selectedImage') {
                   uni.showLoading({
-                    title: '加载中',
+                    title: 'Loading...',
                     mask: true });
 
                 }
@@ -816,7 +871,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                   uni.showToast({
                     icon: 'error',
                     position: 'center',
-                    title: "用户数据存储失败" });
+                    title: "Fail to store user information" });
 
                 });case 6:case "end":return _context4.stop();}}}, _callee4);}))();
     },
@@ -830,30 +885,32 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
         sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], //从相册选择
         success: function success(res) {
-          var filePath = res.tempFilePaths[0];
-          // this.avatarImage = res.tempFilePaths[0];
-          uniCloud.
-          uploadFile({
-            filePath: filePath,
-            cloudPath: "userChooseImage-".concat(new Date().getTime(), ".png") }).
-
-          then(function (res) {
-            //获取到上传到云储存的url地址
-            uniCloud.getTempFileURL({ fileList: [res['fileID']] }).then(function (res) {
-              _this14.avatarImage = res.fileList[0].tempFileURL;
-            });
-            //获取到上传到云储存的url地址
-            // uniCloud
-            // 	.callFunction({
-            // 		name: 'user_mpweixin',
-            // 		data: {
-            // 			userId: this.userInfo._id,
-            // 			avatarImage: this.avatarImage,
-            // 			type
-            // 		}
-            // 	})
-            // 	.then();
-          });
+          // let filePath = res.tempFilePaths[0];
+          _this14.avatarImage = res.tempFilePaths[0];
+          // uniCloud
+          // 	.uploadFile({
+          // 		filePath: filePath,
+          // 		cloudPath: `userChooseImage-${new Date().getTime()}.png`
+          // 	})
+          // 	.then(res => {
+          // 		//获取到上传到云储存的url地址
+          // 		uniCloud.getTempFileURL({
+          // 			fileList: [res['fileID']]
+          // 		}).then(res => {
+          // 			this.avatarImage = res.fileList[0].tempFileURL
+          // 		})
+          // 		//获取到上传到云储存的url地址
+          // 		uniCloud
+          // 			.callFunction({
+          // 				name: 'user_mpweixin',
+          // 				data: {
+          // 					userId: this.userInfo._id,
+          // 					avatarImage: this.avatarImage,
+          // 					type
+          // 				}
+          // 			})
+          // 			.then();
+          // 	});
         } });
 
     },

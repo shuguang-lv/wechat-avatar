@@ -51,6 +51,7 @@
   padding: 8rpx 30rpx;
   border-radius: 6px;
   font-size: 16;
+  width: 70vw;
 }
 .content .image-div .image-card.data-v-81c4ba34 {
   margin: 80rpx;

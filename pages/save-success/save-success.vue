@@ -3,12 +3,12 @@
 		<!-- <view class="iconfont icon-xiangzuo" @click="navBack"></view> -->
 		<view class="image-div">
 			<view class="icon-xiazai iconfont"></view>
-			<view class="tip-div">恭喜你，头像已保存到相册</view>
+			<view class="tip-div">Congrats! Your avatar was saved to the photo album successfully.</view>
 			<image :src="currentImage" class="image-card" mode="widthFix"></image>
 		</view>
 		<view class="btn-card">
-			<button class="action-btn" @click="navIndex()">再来一张</button>
-			<button open-type="share" class="primary-btn">发给朋友</button>
+			<button class="action-btn" @click="navIndex()">New avatar</button>
+			<button open-type="share" class="primary-btn">Share</button>
 		</view>
 	</view>
 </template>
@@ -94,6 +94,7 @@
 				padding: 8rpx 30rpx;
 				border-radius: $uni-border-radius-lg;
 				font-size: $uni-font-size-lg;
+				width: 70vw;
 			}
 
 			.image-card {

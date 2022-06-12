@@ -4,7 +4,7 @@
 		<view class="image-div">
 			<view class="image-unit" v-for="(item, index) in imageList" :key="item._id">
 				<image :src="item.image_url" class="image-card"></image>
-				<view class="btn-card"><button class="primary-btn" @click="downLoadImage(item.image_url)">保存头像</button>
+				<view class="btn-card"><button class="primary-btn" @click="downLoadImage(item.image_url)">Save</button>
 				</view>
 			</view>
 		</view>
@@ -42,7 +42,7 @@
 			 */
 			getUserImagesByOpenId() {
 				uni.showLoading({
-					title: '加载中',
+					title: 'Loading...',
 					mask: true
 				});
 				let {
@@ -61,7 +61,7 @@
 					})
 					.catch(err => {
 						uni.showModal({
-							content: err.message || '请求服务失败',
+							content: err.message || 'Fail to request service',
 							showCancel: false
 						});
 					})
@@ -87,9 +87,9 @@
 								fail(e) {
 									uni.hideLoading();
 									wx.showModal({
-										content: '检测到您没打开下载图片功能权限，是否去设置打开？',
-										confirmText: '确认',
-										cancelText: '取消',
+										content: 'It is detected that image downloading function is not permitted. Do you want to enable it now ?',
+										confirmText: 'Yes',
+										cancelText: 'No',
 										success: function(res) {
 											//点击“确认”时打开设置页面
 											if (res.confirm) {
@@ -121,14 +121,14 @@
 								success: function() {
 									uni.hideLoading();
 									uni.showToast({
-										title: '保存成功',
+										title: 'Saved successfully',
 										icon: 'none'
 									});
 								},
 								fail: function() {
 									uni.hideLoading();
 									uni.showToast({
-										title: '保存失败',
+										title: 'Fail to save',
 										icon: 'none'
 									});
 								}
@@ -147,8 +147,9 @@
 <style lang="scss" scoped>
 	.content {
 		display: flex;
-		justify-content: space-between;
-		padding: 12vh 30rpx 0;
+		justify-content: center;
+		align-items: center;
+		// padding: 12vh 30rpx 0;
 		height: 100vh;
 		position: fixed;
 		top: 0;
@@ -168,12 +169,13 @@
 
 		.image-div {
 			// background-image: url(https://vkceyugu.cdn.bspapp.com/VKCEYUGU-08ecbb66-149e-4d2b-93a0-fa6bc6e0e894/d8596aff-d3ec-4ce8-ae9e-78774efbd1a8.png);
-			padding: 30rpx 30rpx 50rpx;
+			padding: 10rpx 20rpx 10rpx 20rpx;
 			border-radius: $uni-border-radius-base;
-			width: 690rpx;
-			height: 88vh;
+			width: 700rpx;
+			height: 90vh;
 			display: flex;
 			justify-content: space-between;
+			align-content: flex-start;
 			flex-wrap: wrap;
 			box-sizing: border-box;
 			overflow-y: auto;
@@ -182,10 +184,10 @@
 				width: 300rpx;
 				height: 400rpx;
 				background-color: $uni-bg-color;
-				box-shadow: 0px 5px 15px 0px $uni-shadow-color;
+				box-shadow: 0px 5px 10px 0px $uni-shadow-color;
 				border-radius: $uni-border-radius-lg;
 				overflow: hidden;
-				margin-bottom: 30rpx;
+				margin-bottom: 50rpx;
 
 				.image-card {
 					width: 300rpx;
@@ -199,10 +201,10 @@
 
 					.primary-btn {
 						width: 150rpx;
-						background: linear-gradient(97.71deg, $theme-blue-two, $theme-blue-four 88.36%);
-						border: 1rpx solid $theme-blue-two;
+						background: $theme-blue-two;
+						// border: 1rpx solid $theme-blue-two;
 						border-radius: $uni-border-radius-lg;
-						box-shadow: 0 12rpx 16rpx -8rpx $theme-blue-three;
+						// box-shadow: 0 12rpx 16rpx -8rpx $theme-blue-three;
 						color: $uni-text-color-inverse;
 						padding: 0;
 						font-size: $uni-font-size-base;

@@ -32,6 +32,8 @@
 				</view>
 			</view> -->
 		</view>
+		<l-clipper v-if="showClipper" :image-url="avatarImage" @success="avatarImage = $event.url; showClipper = false"
+			@cancel="showClipper = false" />
 		<view class="top-content" @click.stop>
 			<!-- 			<scroll-view scroll-x :show-scrollbar="false">
 						<view class="top-title">
@@ -43,38 +45,41 @@
 					</scroll-view> -->
 			<scroll-view scroll-x :show-scrollbar="false" class="scroll-view">
 				<view class="image-div">
-					<view :class="{ 'image-margin': index !== 0 }" v-for="(info, index) in imageList" :key="info._id"
-						@click="imageClick(info)">
-						<image :src="info.image_url"></image>
+					<view class="image-margin" v-for="(info, index) in imageList" :key="info._id"
+						@click="imageClick(info, index)">
+						<image :src="info.image_url" :class="{'image-border': currentIndex === index}"></image>
 					</view>
 				</view>
 			</scroll-view>
 		</view>
 		<view class="btn-card">
-			<view class="btn-right">
-				<button class="primary-btn action-btn" @click.stop="getUserProfile('createImages')">获取头像</button>
-				<button class="primary-btn" @click.stop="chooseImages('selectedImage')">选择图片</button>
+			<view v-if="userInfo" class="btn-right">
+				<button class="primary-btn action-btn" @click.stop="getUserProfile('createImages')">Fetch
+					Avatar</button>
+				<button class="primary-btn" @click.stop="chooseImages('selectedImage')">Select Image</button>
 			</view>
-			<!-- 			<view v-else class="btn-right">
+			<view v-else class="btn-right">
 				<button class="primary-btn action-btn" open-type="getUserInfo"
-					@click.stop="getUserProfile('createImages')">获取头像</button>
-				<button class="primary-btn" open-type="getUserInfo"
-					@click.stop="getUserProfile('selectedImage')">选择图片</button>
-			</view> -->
+					@click.stop="getUserProfile('createImages')">Fetch Avatar</button>
+				<button class="primary-btn" open-type="getUserInfo" @click.stop="getUserProfile('selectedImage')">Select
+					Image</button>
+			</view>
 			<view class="btn-right">
-				<button open-type="share" class="primary-btn share-btn" @click.stop>分享给好友</button>
-				<view class="save-btn btn-right" @click.stop="shareFc()">
-					<text class="iconfont icon-wancheng"></text>
-					保存
+				<button @tap="showClipper = true" class="primary-btn action-btn">Crop Image</button>
+				<view class="primary-btn" @click.stop="shareFc()">
+					Save Image
 				</view>
 			</view>
+			<view class="btn-right">
+				<button open-type="share" class="primary-btn share-btn" @click.stop>Share Avatar</button>
+			</view>
 		</view>
-		<button class="history-btn" @click.stop="navOriginal()">
-			查看原头像
+		<!-- 		<button v-if="userInfo" class="history-btn" @click.stop="navOriginal()">
+			Avatar History
 			<view class="icon-div"><text class="iconfont icon-xiangzuo"></text></view>
 		</button>
-<!-- 		<button v-else class="history-btn" open-type="getUserInfo" @click.stop="getUserProfile('userLogin')">
-			查看原头像
+		<button v-else class="history-btn" open-type="getUserInfo" @click.stop="getUserProfile('userLogin')">
+			Avatar History
 			<view class="icon-div"><text class="iconfont icon-xiangzuo"></text></view>
 		</button> -->
 		<!-- 		<view class="ad-div" v-if="adState && adInfo && adInfo.imageUrl">
@@ -94,6 +99,7 @@
 	export default {
 		data() {
 			return {
+				showClipper: false,
 				poster: {},
 				posterImage: '',
 				canvasId: 'default_PosterCanvasId',
@@ -166,7 +172,7 @@
 			 */
 			getShareInfo() {
 				uni.showLoading({
-					title: '加载中',
+					title: 'Loading...',
 					mask: true
 				});
 				uniCloud
@@ -187,7 +193,7 @@
 					})
 					.catch(err => {
 						uni.showModal({
-							content: err.message || '请求服务失败',
+							content: err.message || 'Fail to request service',
 							showCancel: false
 						});
 					})
@@ -200,7 +206,7 @@
 			 */
 			getCategoriesList() {
 				uni.showLoading({
-					title: '加载中',
+					title: 'Loading...',
 					mask: true
 				});
 				uniCloud
@@ -220,7 +226,7 @@
 					})
 					.catch(err => {
 						uni.showModal({
-							content: err.message || '请求服务失败',
+							content: err.message || 'Fail to request service',
 							showCancel: false
 						});
 					})
@@ -234,7 +240,7 @@
 			 */
 			getImagesList(id, num, state) {
 				uni.showLoading({
-					title: '加载中',
+					title: 'Loading...',
 					mask: true
 				});
 				uniCloud
@@ -261,7 +267,7 @@
 					})
 					.catch(err => {
 						uni.showModal({
-							content: err.message || '请求服务失败',
+							content: err.message || 'Fail to request service',
 							showCancel: false
 						});
 					})
@@ -412,8 +418,9 @@
 			 * @param {Object} item
 			 * 图片点击事件
 			 */
-			imageClick(item) {
+			imageClick(item, index) {
 				this.currentImage = item;
+				this.currentIndex = index;
 				if (!(this.currentImage && this.currentImage.drag_state)) {
 					this.initImage();
 				}
@@ -462,7 +469,7 @@
 							resolve(res.code);
 						},
 						fail(err) {
-							reject(new Error('微信登录失败'));
+							reject(new Error('Fail to login'));
 						}
 					});
 				});
@@ -473,13 +480,13 @@
 			async shareFc() {
 				if (!this.avatarImage) {
 					uni.showToast({
-						title: '请先获取头像',
+						title: 'Please fetch your avatar first',
 						icon: 'none'
 					});
 					return;
 				}
 				uni.showLoading({
-					title: '加载中',
+					title: 'Loading...',
 					mask: true
 				});
 				const context = uni.createCanvasContext('default_PosterCanvasId', this);
@@ -550,9 +557,9 @@
 								fail(e) {
 									uni.hideLoading();
 									wx.showModal({
-										content: '检测到您没打开下载图片功能权限，是否去设置打开？',
-										confirmText: '确认',
-										cancelText: '取消',
+										content: 'It is detected that image downloading function is not permitted. Do you want to enable it now ?',
+										confirmText: 'Yes',
+										cancelText: 'No',
 										success: function(res) {
 											//点击“确认”时打开设置页面
 											if (res.confirm) {
@@ -578,13 +585,17 @@
 				uni.saveImageToPhotosAlbum({
 					filePath: _self.posterImage,
 					success: function() {
-						_self.saveImageInfo();
+						// _self.saveImageInfo();
 						uni.setStorageSync('currentImage', _self.posterImage);
+						uni.hideLoading();
+						uni.navigateTo({
+							url: '/pages/save-success/save-success'
+						});
 					},
 					fail: e => {
 						uni.hideLoading();
 						uni.showToast({
-							title: '保存失败',
+							title: 'Fail to save',
 							icon: 'none'
 						});
 					}
@@ -616,7 +627,7 @@
 			async getUserProfile(type) {
 				let _this = this;
 				uni.getUserProfile({
-					desc: '获取您的头像信息',
+					desc: 'Fetch avatar information',
 					success(result) {
 						let data = {
 							code: _this.code,
@@ -630,9 +641,16 @@
 							_this.avatarImage = info.substring(0, info.lastIndexOf('/') + 1) + '0';
 							uni.setStorageSync('avatar_image', _this.avatarImage);
 						}
-						// _this.postUserInfo(result.userInfo.nickName, type);
+						_this.postUserInfo(result.userInfo.nickName, type);
 					},
-					fail(fall) {}
+					fail(fall) {
+						console.log(fall)
+						uni.showToast({
+							icon: 'error',
+							position: 'center',
+							title: "Fail to fetch avatar information",
+						})
+					}
 				});
 			},
 			/**
@@ -644,7 +662,7 @@
 				this.code = await this.getWeixinCode();
 				if (type === 'userLogin' || type === 'selectedImage') {
 					uni.showLoading({
-						title: '加载中',
+						title: 'Loading...',
 						mask: true
 					});
 				}
@@ -673,7 +691,7 @@
 						uni.showToast({
 							icon: 'error',
 							position: 'center',
-							title: "用户数据存储失败",
+							title: "Fail to store user information",
 						})
 					});
 			},
@@ -687,30 +705,32 @@
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: ['album', 'camera'], //从相册选择
 					success: res => {
-						let filePath = res.tempFilePaths[0];
-						// this.avatarImage = res.tempFilePaths[0];
-						uniCloud
-							.uploadFile({
-								filePath: filePath,
-								cloudPath: `userChooseImage-${new Date().getTime()}.png`
-							})
-							.then(res => {
-								//获取到上传到云储存的url地址
-								uniCloud.getTempFileURL({fileList: [res['fileID']]}).then(res => {
-									this.avatarImage=res.fileList[0].tempFileURL
-								})
-								//获取到上传到云储存的url地址
-								// uniCloud
-								// 	.callFunction({
-								// 		name: 'user_mpweixin',
-								// 		data: {
-								// 			userId: this.userInfo._id,
-								// 			avatarImage: this.avatarImage,
-								// 			type
-								// 		}
-								// 	})
-								// 	.then();
-							});
+						// let filePath = res.tempFilePaths[0];
+						this.avatarImage = res.tempFilePaths[0];
+						// uniCloud
+						// 	.uploadFile({
+						// 		filePath: filePath,
+						// 		cloudPath: `userChooseImage-${new Date().getTime()}.png`
+						// 	})
+						// 	.then(res => {
+						// 		//获取到上传到云储存的url地址
+						// 		uniCloud.getTempFileURL({
+						// 			fileList: [res['fileID']]
+						// 		}).then(res => {
+						// 			this.avatarImage = res.fileList[0].tempFileURL
+						// 		})
+						// 		//获取到上传到云储存的url地址
+						// 		uniCloud
+						// 			.callFunction({
+						// 				name: 'user_mpweixin',
+						// 				data: {
+						// 					userId: this.userInfo._id,
+						// 					avatarImage: this.avatarImage,
+						// 					type
+						// 				}
+						// 			})
+						// 			.then();
+						// 	});
 					}
 				});
 			},
@@ -784,6 +804,10 @@
 
 				.image-margin {
 					margin: 0 20rpx;
+				}
+
+				.image-border {
+					border: 5rpx solid $uni-border-color;
 				}
 			}
 		}
@@ -878,17 +902,17 @@
 		}
 
 		.btn-card {
-			margin-bottom: 50rpx;
 			box-sizing: border-box;
 			width: 660rpx;
 			display: flex;
+			flex-direction: column;
 			justify-content: space-between;
 			align-items: center;
 
 			.primary-btn {
 				display: inline-flex;
 				align-items: center;
-				margin-right: 20rpx;
+				margin-right: 30rpx;
 				background: $theme-blue-three;
 				border-radius: $uni-border-radius-lg;
 				color: $uni-text-color-inverse;
@@ -907,14 +931,16 @@
 			}
 
 			.share-btn {
-				background: $theme-blue-two;
+				background: $theme-orange;
 				border: none;
 				font-weight: normal;
+				border-radius: 50rpx;
 			}
 
 			.btn-right {
 				display: flex;
 				align-items: center;
+				margin-bottom: 30rpx;
 			}
 
 			.save-btn {
@@ -963,6 +989,7 @@
 			.icon-div {
 				display: inline-block;
 				transform: rotateY(180deg);
+				margin-left: 10rpx;
 
 				.icon-xiangzuo {
 					font-size: 30rpx;

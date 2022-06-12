@@ -1,5 +1,5 @@
 {
-    "name" : "photo",
+    "name" : "UNNC-graduation-2022",
     "appid" : "__UNI__225C1AB",
     "description" : "",
     "versionName" : "1.0.0",
@@ -50,9 +50,12 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wxf749654790c1c0f1",
+        "appid" : "wx0a8bd897ecfe4927",
         "setting" : {
-            "urlCheck" : true
+            "urlCheck" : false,
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true
         },
         "usingComponents" : true
     },

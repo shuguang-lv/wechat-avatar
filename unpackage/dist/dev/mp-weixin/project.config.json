@@ -5,12 +5,11 @@
     "include": []
   },
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": true,
-    "enhance": true,
     "postcss": true,
-    "preloadBackgroundData": false,
     "minified": true,
+    "enhance": true,
     "coverView": true,
     "autoAudits": false,
     "showShadowRootInWxmlPanel": true,
@@ -30,13 +29,12 @@
     "disableUseStrict": false,
     "showES6CompileOption": false,
     "useCompilerPlugins": false,
-    "useStaticServer": true,
-    "minifyWXML": true
+    "useStaticServer": true
   },
   "compileType": "miniprogram",
   "libVersion": "",
-  "appid": "wxf749654790c1c0f1",
-  "projectname": "photo",
+  "appid": "wx0a8bd897ecfe4927",
+  "projectname": "UNNC-graduation-2022",
   "condition": {
     "miniprogram": {
       "list": [
