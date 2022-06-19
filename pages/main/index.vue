@@ -1,5 +1,8 @@
 <template>
 	<view class="content" @touchmove.stop @click.native="touchAvatarBg(false)">
+		<head-bar></head-bar>
+		<image src="https://7463-tcb-htqvbkbv9bxahty751ffe-b59e59-1305947755.tcb.qcloud.la/background-image.png" mode="aspectFit" class="background-image"></image>
+
 		<view class="hideCanvas">
 			<canvas class="default_PosterCanvasId"
 				:style="{ width: imageScale * cansBorder + 'px', height: imageScale * cansBorder + 'px' }"
@@ -7,44 +10,45 @@
 		</view>
 
 		<view class="image-card">
-			<!-- 			<view class="switch-div">
-				<view class="icon-xiangzuo iconfont" v-if="showSwitch(-1)" @click.stop="switchAvatar(-1)"></view>
-			</view> -->
-			<view class="avatar-div " id="avatar-container" @click.stop @touchstart="touchStart" @touchend="touchEnd"
-				@touchmove="touchMove">
+			<view class="avatar-div" id="avatar-container" @click.stop>
 				<image class="img" id="avatar-img" :src="avatarImage || defaultImage" @click="touchAvatarBg(false)">
 				</image>
-				<image class="avatar-default" :class="{ 'avatar-border': showBorder && currentImage.drag_state }"
-					:style="{
-						top: maskCenterY - maskSize / 2 - 2 + 'px',
-						left: maskCenterX - maskSize / 2 - 2 + 'px',
+				<image v-if="currentImage && currentImage.image_url" class="avatar-default"
+					:class="{ 'avatar-border': showBorder && currentImage.drag_state }" :style="{
+						top: maskCenterY - maskSize / 2 - 3 + 'px',
+						left: maskCenterX - maskSize / 2 - 3 + 'px',
 						transform: 'rotate(' + rotate + 'deg)' + 'scale(' + scale + ')'
-					}" id="mask-img" :src="currentImage.image_url" v-if="currentImage && currentImage.image_url"
-					@click="touchAvatarBg(true)"></image>
-				<view class="drag-div"
+					}" id="mask-img" :src="currentImage.image_url" @click="touchAvatarBg(false)"></image>
+				<!-- 				<view class="drag-div"
 					:style="{ top: handleCenterY - 10 + 'px', left: handleCenterX - 10 + 'px', width: handleWidth + 'rpx', height: handleWidth + 'rpx' }"
 					v-if="showBorder && currentImage && currentImage.drag_state">
 					<image class="drag-img" id="drag-img" src="/static/images/drag.svg"></image>
-				</view>
+				</view> -->
 			</view>
-			<!-- 			<view class="switch-div">
-				<view class="icon-xiangzuo iconfont rotate-level" v-if="showSwitch(1)" @click.stop="switchAvatar(1)">
-				</view>
-			</view> -->
 		</view>
+		
+		<div class="load-image-buttons">
+			<div class="button-container">
+				<button class="load-image-button" hover-class="load-image-button-hover" open-type="getUserInfo" @click.stop="getUserProfile('createImages')"><span>Fetch</span></button>
+				<div class="button-descripsion">匹配当前头像<br>Fetch current avatar</div>
+			</div>
+			<div class="button-container">
+				<button v-if="userInfo" class="load-image-button" hover-class="load-image-button-hover" @click.stop="chooseImages('selectedImage')"><span>Select</span></button>
+				<button v-else class="load-image-button" hover-class="load-image-button-hover" open-type="getUserInfo" @click.stop="getUserProfile('selectedImage')"><span>Select</span></button>
+				<div class="button-descripsion">从相册选择<br>Select from albums</div>
+			</div>
+		</div>
+		
 		<l-clipper v-if="showClipper" :image-url="avatarImage" @success="avatarImage = $event.url; showClipper = false"
 			@cancel="showClipper = false" />
-		<view class="top-content" @click.stop>
-			<!-- 			<scroll-view scroll-x :show-scrollbar="false">
-						<view class="top-title">
-							<view class="title-unit" :class="{ 'title-select': item.selected }"
-								v-for="(item, index) in categoriesList" :key="item._id" @click="switchCategory(item)">
-								{{ item.name }}
-							</view>
-						</view>
-					</scroll-view> -->
-			<scroll-view scroll-x :show-scrollbar="false" class="scroll-view">
+			
+		<view class="image-selector" @click.stop>
+			<scroll-view scroll-x style="white-space: nowrap; width: 90%;">
 				<view class="image-div">
+					<view class="image-margin" v-for="(info, index) in imageList" :key="info._id"
+						@click="imageClick(info, index)">
+						<image :src="info.image_url" :class="{'image-border': currentIndex === index}"></image>
+					</view>
 					<view class="image-margin" v-for="(info, index) in imageList" :key="info._id"
 						@click="imageClick(info, index)">
 						<image :src="info.image_url" :class="{'image-border': currentIndex === index}"></image>
@@ -52,41 +56,11 @@
 				</view>
 			</scroll-view>
 		</view>
-		<view class="btn-card">
-			<view v-if="userInfo" class="btn-right">
-				<button class="primary-btn action-btn" @click.stop="getUserProfile('createImages')">Fetch
-					Avatar</button>
-				<button class="primary-btn" @click.stop="chooseImages('selectedImage')">Select Image</button>
-			</view>
-			<view v-else class="btn-right">
-				<button class="primary-btn action-btn" open-type="getUserInfo"
-					@click.stop="getUserProfile('createImages')">Fetch Avatar</button>
-				<button class="primary-btn" open-type="getUserInfo" @click.stop="getUserProfile('selectedImage')">Select
-					Image</button>
-			</view>
-			<view class="btn-right">
-				<button @tap="showClipper = true" class="primary-btn action-btn">Crop Image</button>
-				<view class="primary-btn" @click.stop="shareFc()">
-					Save Image
-				</view>
-			</view>
-			<view class="btn-right">
-				<button open-type="share" class="primary-btn share-btn" @click.stop>Share Avatar</button>
-			</view>
-		</view>
-		<!-- 		<button v-if="userInfo" class="history-btn" @click.stop="navOriginal()">
-			Avatar History
-			<view class="icon-div"><text class="iconfont icon-xiangzuo"></text></view>
+		
+		<button class="download-button" hover-class="download-button-hover" @click.stop="shareFc()">
+			<span>Download</span>
+			<image src="@/static/icon/download-icon.png" mode="aspectFit"></image>
 		</button>
-		<button v-else class="history-btn" open-type="getUserInfo" @click.stop="getUserProfile('userLogin')">
-			Avatar History
-			<view class="icon-div"><text class="iconfont icon-xiangzuo"></text></view>
-		</button> -->
-		<!-- 		<view class="ad-div" v-if="adState && adInfo && adInfo.imageUrl">
-			<view class="icon-guanbi iconfont" @click.stop="adState = false"></view>
-			<view class="ad-card" v-if="adInfo && adInfo.imageUrl"
-				:style="{ 'background-image': 'url(' + adInfo.imageUrl + ')' }" @click="navSortition()"></view>
-		</view> -->
 	</view>
 </template>
 
@@ -95,8 +69,12 @@
 	import {
 		getSharePoster
 	} from '@/util/QS-SharePoster/QS-SharePoster.js';
+	import HeadBar from '@/components/HeadBar.vue'
 
 	export default {
+		components: {
+			HeadBar
+		},
 		data() {
 			return {
 				showClipper: false,
@@ -106,16 +84,12 @@
 				userInfo: '',
 				code: '',
 				avatarImage: uni.getStorageSync('avatar_image'),
-				indexBg: {},
 				defaultImage: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-08ecbb66-149e-4d2b-93a0-fa6bc6e0e894/c33782ca-cd2f-4bfc-84eb-0713c52f522f.svg',
 				currentImage: {},
 				currentIndex: 0,
 				imageList: uni.getStorageSync('first_image_list') || [],
 				categoriesList: uni.getStorageSync('image_categories_list') || [],
-				shareInfo: {},
-				adInfo: {},
-				adState: true,
-				showBorder: true, // 默认是否显示边框
+				showBorder: false, // 默认是否显示边框
 				maskCenterX: uni.upx2px(590) / 2,
 				maskCenterY: uni.upx2px(590) / 2,
 				handleCenterX: uni.upx2px(560), // 360
@@ -136,16 +110,14 @@
 				startInfo: 0,
 				cansBorder: uni.upx2px(590), // 宽度 px
 				imageScale: 10,
-				bgIndex: 0
 			};
 		},
 		onLoad() {
 			this.init();
-			this.initBg();
 			this.getCategoriesList();
 		},
 		onShow() {
-			this.getShareInfo();
+			// this.getShareInfo();
 		},
 		onReady() {
 			const query = wx.createSelectorQuery();
@@ -153,54 +125,22 @@
 			query.exec(res => {
 				this.startInfo = res[0];
 			});
-			// let pixelRatio = 0;
-			// wx.getSystemInfo({
-			// 	success: (res)=>  {
-			// 		this.imageScale = res.pixelRatio;
-			// 	},
-			// });
 		},
-		onShareAppMessage: function() {
-			return this.shareInfo;
+		onShareAppMessage() {
+			return {
+				title: "UNNC 2022 Graduation",
+				imageUrl: "/static/images/share-card.png",
+				path: "/pages/main/index"
+			}
 		},
-		onShareTimeline: function() {
-			return this.shareInfo;
+		onShareTimeline() {
+			return {
+				title: "UNNC 2022 Graduation",
+				imageUrl: "/static/images/share-card.png",
+				path: "/pages/main/index"
+			}
 		},
 		methods: {
-			/**
-			 * 获取分享字典
-			 */
-			getShareInfo() {
-				uni.showLoading({
-					title: 'Loading...',
-					mask: true
-				});
-				uniCloud
-					.callFunction({
-						name: 'code-mag',
-						data: {
-							type: 'mpweixinGet'
-						}
-					})
-					.then(res => {
-						if (res.result.data && res.result.data.length > 0) {
-							this.shareInfo = res.result.data.find(el => el.code === 'mpwx_share');
-							// this.adInfo = res.result.data.find(el => el.code === 'index_ad');
-							// this.indexBg = res.result.data.find(el => el.code === 'index_bg');
-							uni.setStorageSync('shareInfo', this.shareInfo);
-							uni.setStorageSync('background_info', res.result.data);
-						}
-					})
-					.catch(err => {
-						uni.showModal({
-							content: err.message || 'Fail to request service',
-							showCancel: false
-						});
-					})
-					.finally(() => {
-						uni.hideLoading();
-					});
-			},
 			/**
 			 * 获取分类
 			 */
@@ -281,24 +221,6 @@
 			async init() {
 				this.code = await this.getWeixinCode();
 				this.userInfo = uni.getStorageSync('user_info');
-			},
-			/**
-			 * 初始化
-			 */
-			initBg() {
-				if (uni.getStorageSync('background_info') && uni.getStorageSync('background_info').length) {
-					let info = uni.getStorageSync('background_info');
-					this.shareInfo = info.find(el => el.code === 'mpwx_share');
-					// this.adInfo = info.find(el => el.code === 'index_ad');
-					// this.indexBg = info.find(el => el.code === 'index_bg');
-				} else if (this.bgIndex < 5) {
-					this.bgIndex++;
-					setTimeout(() => {
-						this.initBg();
-					}, 300);
-				} else {
-					this.getShareInfo();
-				}
 			},
 			/**
 			 * @param {Object} item
@@ -448,17 +370,6 @@
 				this.start_y = 0;
 			},
 			/**
-			 * @param {Object} val
-			 * 是否展示左右切换
-			 */
-			showSwitch(val) {
-				let currentType = this.categoriesList.findIndex(data => data.selected);
-				let currentIndex = this.imageList.findIndex(el => el._id === this.currentImage._id);
-				let res = (val < 0 && currentType <= 0 && currentIndex <= 0) || (val > 0 && currentType >= this
-					.categoriesList.length - 1 && currentIndex >= this.imageList.length - 1);
-				return !res;
-			},
-			/**
 			 * 获取微信code
 			 */
 			getWeixinCode() {
@@ -589,7 +500,7 @@
 						uni.setStorageSync('currentImage', _self.posterImage);
 						uni.hideLoading();
 						uni.navigateTo({
-							url: '/pages/save-success/save-success'
+							url: '/pages/save-success/index'
 						});
 					},
 					fail: e => {
@@ -616,7 +527,7 @@
 					.then(res => {
 						uni.hideLoading();
 						uni.navigateTo({
-							url: '/pages/save-success/save-success'
+							url: '/pages/save-success/index'
 						});
 					});
 			},
@@ -707,6 +618,7 @@
 					success: res => {
 						// let filePath = res.tempFilePaths[0];
 						this.avatarImage = res.tempFilePaths[0];
+						this.showClipper = true
 						// uniCloud
 						// 	.uploadFile({
 						// 		filePath: filePath,
@@ -736,14 +648,9 @@
 			},
 			navOriginal() {
 				uni.navigateTo({
-					url: '/pages/original-avatar/original-avatar'
+					url: '/pages/original-avatar/index'
 				});
 			},
-			navSortition() {
-				uni.navigateTo({
-					url: '/pages/sortition/sortition'
-				});
-			}
 		}
 	};
 </script>
@@ -754,60 +661,47 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		background-size: 100% 100%;
+		width: 100vw;
 		height: 100vh;
+		padding-top: 20px;
 		box-sizing: border-box;
-		// padding: 200rpx 0 0;
-		// min-height: 100vh;
-		// background-image: url('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-08ecbb66-149e-4d2b-93a0-fa6bc6e0e894/3da3f4b5-271b-48f5-b13f-acb0d362ed91.jpg');
 
-		.top-content {
-			width: 610rpx;
-			background-color: $uni-bg-color-grey;
-			margin: 50rpx;
-			border-radius: $uni-border-radius-lg;
-			padding: 30rpx;
+		.background-image {
+			position: fixed;
+			z-index: -1;
+			top: 50vh;
+			left: 50vw;
+			width: 312px;
+			height: 356px;
+			transform: translate(-50%, -50%);
+		}
+
+		.image-selector {
+			display: flex;
+			justify-content: center;
+			width: 100vw;
+			background-color: rgba(255, 255, 255, 0.7);
+			padding: 30rpx 0;
+			margin-bottom: 40px;
 			position: relative;
-
-			.top-title {
-				display: flex;
-				align-items: center;
-				flex-wrap: nowrap;
-
-				.title-unit {
-					padding: 40rpx 20rpx;
-					white-space: nowrap;
-					font-size: 30rpx;
-				}
-
-				.title-select {
-					font-size: 30rpx;
-					font-weight: bold;
-					color: #ff4500;
-				}
-			}
 
 			.image-div {
 				display: flex;
 				align-items: center;
-				// padding-left: 20rpx;
-				// padding-bottom: 20rpx;
-				// padding-top: 20rpx;
-				// background-color: $uni-bg-color;
 
 				image {
+					box-sizing: border-box;
 					width: 120rpx;
 					height: 120rpx;
-					border: 1rpx solid $uni-border-color;
 					flex-shrink: 0;
 				}
 
-				.image-margin {
-					margin: 0 20rpx;
+				.image-margin:not(:last-child) {
+					margin-right: 30rpx;
 				}
 
 				.image-border {
-					border: 5rpx solid $uni-border-color;
+					border: 5rpx solid $uni-shadow-color;
 				}
 			}
 		}
@@ -817,27 +711,9 @@
 			justify-content: center;
 			align-items: center;
 			position: relative;
-
-			// .switch-div {
-			// 	width: 80rpx;
-			// 	height: 300rpx;
-			// 	display: flex;
-			// 	align-items: center;
-			// 	justify-content: center;
-			// 	overflow: hidden;
-
-			// 	.iconfont {
-			// 		font-size: 78rpx;
-			// 		font-weight: bold;
-			// 		background-image: -webkit-linear-gradient(180deg, #f7f8fa, #ff4d42 88.36%);
-			// 		-webkit-text-fill-color: transparent;
-			// 		-webkit-background-clip: text;
-			// 	}
-
-			// 	.rotate-level {
-			// 		transform: rotateY(180deg);
-			// 	}
-			// }
+			background: rgba(255, 255, 255, 0.9);
+			width: 80vw;
+			height: $avatar-size + 60rpx;
 
 			.avatar-div {
 				position: relative;
@@ -856,7 +732,7 @@
 				.img {
 					position: absolute;
 					background-color: $uni-bg-color-grey;
-					border-radius: $uni-border-radius-lg;
+					// border-radius: $uni-border-radius-lg;
 					height: 100%;
 					width: 100%;
 					z-index: 0;
@@ -864,7 +740,7 @@
 
 				.avatar-default {
 					box-sizing: content-box;
-					border-radius: $uni-border-radius-lg;
+					// border-radius: $uni-border-radius-lg;
 					height: 100%;
 					width: 100%;
 					margin: 6rpx;
@@ -900,108 +776,67 @@
 				}
 			}
 		}
-
-		.btn-card {
-			box-sizing: border-box;
-			width: 660rpx;
+		
+		.load-image-buttons {
 			display: flex;
-			flex-direction: column;
 			justify-content: space-between;
-			align-items: center;
-
-			.primary-btn {
-				display: inline-flex;
-				align-items: center;
-				margin-right: 30rpx;
-				background: $theme-blue-three;
-				border-radius: $uni-border-radius-lg;
-				color: $uni-text-color-inverse;
-				padding: 0 20rpx;
-				font-size: $uni-font-size-base;
-				height: 70rpx;
-				line-height: 68rpx;
-				font-weight: bold;
-			}
-
-			.action-btn {
-				background: $uni-bg-color;
-				border: 5rpx solid $theme-blue-three;
-				color: $theme-blue-three;
-				font-weight: bold;
-			}
-
-			.share-btn {
-				background: $theme-orange;
-				border: none;
-				font-weight: normal;
-				border-radius: 50rpx;
-			}
-
-			.btn-right {
+			width: 80vw;
+			margin: 30px 0;
+			
+			.button-container {
 				display: flex;
+				flex-direction: column;
+				justify-content: center;
 				align-items: center;
-				margin-bottom: 30rpx;
-			}
-
-			.save-btn {
-				color: $theme-blue-two;
-				font-size: $uni-font-size-lg;
-				font-weight: bold;
-			}
-		}
-
-		// .ad-div {
-		// 	position: fixed;
-		// 	top: 300rpx;
-		// 	right: 0;
-		// 	box-sizing: border-box;
-		// 	z-index: 99999;
-		// 	display: flex;
-		// 	align-items: flex-end;
-		// 	flex-direction: column;
-
-		// 	.icon-guanbi {
-		// 		font-size: 36rpx;
-		// 		color: #ffffff;
-		// 	}
-
-		// 	.ad-card {
-		// 		background-size: cover;
-		// 		width: 200rpx;
-		// 		height: 200rpx;
-		// 		animation: d-light 2s linear infinite;
-		// 		font-size: 20rpx;
-		// 		color: #ffffff;
-		// 	}
-		// }
-
-		.history-btn {
-			font-size: $uni-font-size-base;
-			color: $uni-text-color-inverse;
-			display: inline-block;
-			background: $theme-orange;
-			height: 70rpx;
-			line-height: 70rpx;
-			border-radius: 40rpx;
-			padding-left: 50rpx;
-			padding-right: 30rpx;
-
-			.icon-div {
-				display: inline-block;
-				transform: rotateY(180deg);
-				margin-left: 10rpx;
-
-				.icon-xiangzuo {
-					font-size: 30rpx;
+				
+				.load-image-button {
+					width: 120px;
+					height: 35px;
+					background-color: $theme-yellow;
+					font-style: normal;
+					font-weight: 600;
+					font-size: 16px;
+					color: $uni-text-color-black;
+					margin-bottom: 10px;
+					transition: 0.3s;
+				}
+				
+				.load-image-button-hover {
+					transform: scale(0.95);
+					transition: 0.3s;
+				}
+				
+				.button-descripsion {
+					text-align: center;
+					font-size: 12px;
+					line-height: 20px;
 				}
 			}
 		}
 
-		.history-btn::after {
-			border-left-width: 0;
-			border-right-width: 0;
-			border-top-width: 0;
-			border-bottom-width: 0;
+		.download-button {
+			width: 200px;
+			height: 40px;
+			background-color: $theme-yellow;
+			font-style: normal;
+			font-weight: 600;
+			font-size: 16px;
+			color: $uni-text-color-black;
+			transition: 0.3s;
+			
+			span {
+				margin-right: 15px;
+			}
+			
+			image {
+				width: 18px;
+				height: 18px;
+			}
+		}
+		
+		.download-button-hover {
+			transform: scale(0.95);
+			transition: 0.3s;
 		}
 
 		.hideCanvas {

@@ -27,45 +27,50 @@
 /* 文章场景相关 */
 /* 全局主题色 */
 /* 头像尺寸 */
-/*每个页面公共css*/
-@font-face {
-  font-family: "iconfont"; /* Project id 2846383 */
-  src: url('https://at.alicdn.com/t/font_2846383_j7nik6nkd5.ttf?t=1643360234887') format('truetype');
-}
-.iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.icon-guanbi:before {
-  content: "\eaf2";
-}
-.icon-wancheng:before {
-  content: "\e603";
-}
-.icon-xiangzuo:before {
-  content: "\eb15";
-}
-.icon-xiazai:before {
-  content: "\e608";
-}
-.icon-you:before {
-  content: "\e625";
-}
-.icon-zuo:before {
-  content: "\e626";
-}
-page {
-  background-color: #002573;
-  color: #fff;
-}
-button {
+.content {
+  height: 100vh;
+  width: 100vw;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  border-radius: 0;
-  margin: 0;
+  align-items: center;
+}
+.content .welcome-image {
+  width: 50vw;
+}
+.content .welcome-msg {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 35px;
+  color: #F0B104;
+  text-align: center;
+  margin-bottom: 10vh;
+}
+.content .introduction {
+  width: 179px;
+  height: 50px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 20px;
+  color: #FFFFFF;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.content .start-button {
+  width: 230px;
+  height: 40px;
+  background-color: #F0B104;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: #000000;
+  transition: 0.3s;
+}
+.content .start-button-hover {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+  transition: 0.3s;
 }
 

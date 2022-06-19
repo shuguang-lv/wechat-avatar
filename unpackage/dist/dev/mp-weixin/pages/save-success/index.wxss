@@ -27,62 +27,46 @@
 /* 文章场景相关 */
 /* 全局主题色 */
 /* 头像尺寸 */
-.content.data-v-ed487e9c {
+.content.data-v-788f90af {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-size: 100% 100%;
 }
-.content .icon-xiangzuo.data-v-ed487e9c {
+.content .background-image.data-v-788f90af {
   position: fixed;
-  top: 6vh;
-  left: 30rpx;
-  color: #ffffff;
-  font-size: 40rpx;
-  font-weight: bold;
+  z-index: -1;
+  top: 50vh;
+  left: 50vw;
+  width: 312px;
+  height: 356px;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
-.content .image-div.data-v-ed487e9c {
-  padding: 10rpx 20rpx 10rpx 20rpx;
-  border-radius: 3px;
-  width: 700rpx;
-  height: 90vh;
+.content .image-div.data-v-788f90af {
   display: flex;
-  justify-content: space-between;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  overflow-y: auto;
-}
-.content .image-div .image-unit.data-v-ed487e9c {
-  width: 300rpx;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 400rpx;
   height: 400rpx;
-  background-color: #ffffff;
-  box-shadow: 0px 5px 10px 0px #808080;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 50rpx;
+  background-color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10vh;
 }
-.content .image-div .image-unit .image-card.data-v-ed487e9c {
-  width: 300rpx;
-  height: 300rpx;
+.content .image-div .image-card.data-v-788f90af {
+  height: 350rpx;
+  width: 350rpx;
 }
-.content .image-div .image-unit .btn-card.data-v-ed487e9c {
-  padding: 10rpx 30rpx 30rpx;
-  box-sizing: border-box;
-  display: flex;
+.content .download-icon.data-v-788f90af {
+  width: 35px;
+  height: 35px;
+  margin-bottom: 16px;
 }
-.content .image-div .image-unit .btn-card .primary-btn.data-v-ed487e9c {
-  width: 150rpx;
-  background: #007ca7;
-  border-radius: 6px;
-  color: #fff;
-  padding: 0;
-  font-size: 14px;
-  float: right;
+.content .success-msg.data-v-788f90af {
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  color: #F0B104;
 }
 

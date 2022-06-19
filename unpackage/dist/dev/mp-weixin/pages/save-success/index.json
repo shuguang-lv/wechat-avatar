@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": false,
+  "disableScroll": true,
+  "usingComponents": {
+    "head-bar": "/components/HeadBar"
+  }
+}

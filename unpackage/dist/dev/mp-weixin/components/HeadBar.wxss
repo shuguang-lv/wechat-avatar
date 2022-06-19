@@ -27,45 +27,41 @@
 /* 文章场景相关 */
 /* 全局主题色 */
 /* 头像尺寸 */
-/*每个页面公共css*/
-@font-face {
-  font-family: "iconfont"; /* Project id 2846383 */
-  src: url('https://at.alicdn.com/t/font_2846383_j7nik6nkd5.ttf?t=1643360234887') format('truetype');
+.head-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: auto;
 }
-.iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.head-bar .logo {
+  width: 135px;
+  height: 50px;
 }
-.icon-guanbi:before {
-  content: "\eaf2";
-}
-.icon-wancheng:before {
-  content: "\e603";
-}
-.icon-xiangzuo:before {
-  content: "\eb15";
-}
-.icon-xiazai:before {
-  content: "\e608";
-}
-.icon-you:before {
-  content: "\e625";
-}
-.icon-zuo:before {
-  content: "\e626";
-}
-page {
-  background-color: #002573;
+.head-bar .share-button {
+  margin: 0 18px 0 0;
+  width: 86px;
+  height: 29px;
+  border: 1px solid #ffffff;
+  font-weight: 500;
+  font-size: 12px;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
   color: #fff;
 }
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0;
-  margin: 0;
+.head-bar .share-button ._span {
+  margin-right: 10px;
+}
+.head-bar .share-button image {
+  width: 18px;
+  height: 18px;
+}
+.head-bar .share-button-hover {
+  background-color: #ffffff;
+  color: #002573;
+  transition: 0.3s;
 }
 

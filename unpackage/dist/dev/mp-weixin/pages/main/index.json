@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": false,
+  "disableScroll": true,
+  "usingComponents": {
+    "l-clipper": "/uni_modules/lime-clipper/components/l-clipper/l-clipper",
+    "head-bar": "/components/HeadBar"
+  }
+}

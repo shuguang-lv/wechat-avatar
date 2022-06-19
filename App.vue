@@ -58,4 +58,17 @@
 <style lang="scss">
 	/*每个页面公共css*/
 	@import url("./static/icon/icon.css");
+	
+	page {
+		background-color: $theme-blue;
+		color: $uni-text-color-inverse;
+	}
+	
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0;
+		margin: 0;
+	}
 </style>

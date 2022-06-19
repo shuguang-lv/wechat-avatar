@@ -1,15 +1,15 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/original-avatar/original-avatar",
-    "pages/save-success/save-success"
+    "pages/welcome/index",
+    "pages/main/index",
+    "pages/save-success/index"
   ],
   "subPackages": [],
   "window": {
-    "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "UNNC Graduation",
-    "navigationBarBackgroundColor": "#1a296b",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "UNNC 2022 Graduation",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#002573"
   },
   "usingComponents": {}
 }

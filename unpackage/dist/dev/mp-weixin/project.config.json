@@ -39,18 +39,18 @@
     "miniprogram": {
       "list": [
         {
-          "name": "index",
-          "pathName": "pages/index/index",
+          "name": "welcome",
+          "pathName": "pages/welcome/index",
           "query": ""
         },
         {
-          "name": "original-avatar",
-          "pathName": "pages/original-avatar/original-avatar",
+          "name": "main",
+          "pathName": "pages/main/index",
           "query": ""
         },
         {
           "name": "save-success",
-          "pathName": "pages/save-success/save-success",
+          "pathName": "pages/save-success/index",
           "query": ""
         }
       ]
