@@ -6,7 +6,7 @@
 			<image :src="currentImage" class="image-card" mode="aspectFit"></image>
 		</view>
 		<image src="../../static/icon/download-icon-gold.png" class="download-icon" mode="aspectFit"></image>
-		<div class="success-msg">Successfully<br>Downloaded!</div>
+		<div class="success-msg">Successfully!</div>
 	</view>
 </template>
 
@@ -34,14 +34,14 @@
 		},
 		onShareAppMessage() {
 			return {
-				title: "UNNC 2022 Graduation",
+				title: getApp().globalData.shareTitle,
 				imageUrl: "/static/images/share-card.png",
 				path: "/pages/save-success/index"
 			}
 		},
 		onShareTimeline() {
 			return {
-				title: "UNNC 2022 Graduation",
+				title: getApp().globalData.shareTitle,
 				imageUrl: "/static/images/share-card.png",
 				path: "/pages/save-success/index"
 			}

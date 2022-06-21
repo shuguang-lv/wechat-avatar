@@ -89,6 +89,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni, uniCloud) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 {
+  globalData: {
+    shareTitle: 'UNNC Summer 2022 Graduation' },
+
   data: function data() {
     return {
       shareInfo: uni.getStorageSync('shareInfo') };
@@ -101,8 +104,7 @@ __webpack_require__.r(__webpack_exports__);
   onShow: function onShow() {
     this.getShareInfo();
   },
-  onHide: function onHide() {
-  },
+  onHide: function onHide() {},
   onShareAppMessage: function onShareAppMessage() {
     return this.shareInfo;
   },
@@ -121,7 +123,9 @@ __webpack_require__.r(__webpack_exports__);
       uniCloud.
       callFunction({
         name: 'code-mag',
-        data: { type: 'mpweixinGet' } }).
+        data: {
+          type: 'mpweixinGet' } }).
+
 
       then(function (res) {
         if (res.result.data && res.result.data.length > 0) {

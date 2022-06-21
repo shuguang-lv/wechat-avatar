@@ -153,22 +153,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 var _rotate = _interopRequireDefault(__webpack_require__(/*! ./images/rotate.svg */ 57));
 var _photo = _interopRequireDefault(__webpack_require__(/*! ./images/photo.svg */ 58));
 var _utils = __webpack_require__(/*! ./utils */ 59);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+
+
+
+
+
+
+
+
 var cache = {};var _default2 =
 {
   name: 'lime-clipper',
@@ -245,7 +241,8 @@ var cache = {};var _default2 =
 
     scaleRatio: {
       type: Number,
-      default: 1 },
+      // default: uni.getSystemInfoSync().devicePixelRatio
+      default: 5 },
 
     minRatio: {
       type: Number,
@@ -324,38 +321,67 @@ var cache = {};var _default2 =
       flagEndTouch: false,
       clipStart: {},
       animationTimer: null,
-      touchRelative: [{ x: 0, y: 0 }],
+      touchRelative: [{
+        x: 0,
+        y: 0 }],
+
       hypotenuseLength: 0,
       ctx: null };
 
   },
   computed: {
     clipStyle: function clipStyle() {var
-      clipWidth = this.clipWidth,clipHeight = this.clipHeight,clipY = this.clipY,clipX = this.clipX,animation = this.animation;
-      return "\n\t\t\twidth: ".concat(
-      clipWidth, "px;\n\t\t\theight:").concat(
-      clipHeight, "px;\n\t\t\ttransition-property: ").concat(
-      animation ? '' : 'background', ";\n\t\t\tleft: ").concat(
-      clipX, "px;\n\t\t\ttop: ").concat(
-      clipY, "px\n\t\t\t");
+
+      clipWidth =
+
+
+
+
+      this.clipWidth,clipHeight = this.clipHeight,clipY = this.clipY,clipX = this.clipX,animation = this.animation;
+      return "\n\t\twidth: ".concat(
+      clipWidth, "px;\n\t\theight:").concat(
+      clipHeight, "px;\n\t\ttransition-property: ").concat(
+      animation ? '' : 'background', ";\n\t\tleft: ").concat(
+      clipX, "px;\n\t\ttop: ").concat(
+      clipY, "px\n\t\t");
 
     },
     imageStyle: function imageStyle() {var
-      imageWidth = this.imageWidth,imageHeight = this.imageHeight,imageLeft = this.imageLeft,imageTop = this.imageTop,animation = this.animation,scale = this.scale,angle = this.angle;
-      return "\n\t\t\t\twidth: ".concat(
-      imageWidth ? imageWidth + 'px' : 'auto', ";\n\t\t\t\theight: ").concat(
-      imageHeight ? imageHeight + 'px' : 'auto', ";\n\t\t\t\ttransform: translate3d(").concat(
-      imageLeft - imageWidth / 2, "px, ").concat(imageTop - imageHeight / 2, "px, 0) scale(").concat(scale, ") rotate(").concat(angle, "deg);\n\t\t\t\ttransition-duration: ").concat(
-      animation ? 0.35 : 0, "s\n\t\t\t");
+
+      imageWidth =
+
+
+
+
+
+
+      this.imageWidth,imageHeight = this.imageHeight,imageLeft = this.imageLeft,imageTop = this.imageTop,animation = this.animation,scale = this.scale,angle = this.angle;
+      return "\n\t\t\twidth: ".concat(
+      imageWidth ? imageWidth + 'px' : 'auto', ";\n\t\t\theight: ").concat(
+      imageHeight ? imageHeight + 'px' : 'auto', ";\n\t\t\ttransform: translate3d(").concat(
+      imageLeft - imageWidth / 2, "px, ").concat(imageTop - imageHeight / 2, "px, 0) scale(").concat(scale, ") rotate(").concat(angle, "deg);\n\t\t\ttransition-duration: ").concat(
+      animation ? 0.35 : 0, "s\n\t\t");
 
     },
     clipSize: function clipSize() {var
-      clipWidth = this.clipWidth,clipHeight = this.clipHeight;
-      return { clipWidth: clipWidth, clipHeight: clipHeight };
+
+      clipWidth =
+
+      this.clipWidth,clipHeight = this.clipHeight;
+      return {
+        clipWidth: clipWidth,
+        clipHeight: clipHeight };
+
     },
     clipPoint: function clipPoint() {var
-      clipY = this.clipY,clipX = this.clipX;
-      return { clipY: clipY, clipX: clipX };
+
+      clipY =
+
+      this.clipY,clipX = this.clipX;
+      return {
+        clipY: clipY,
+        clipX: clipX };
+
     } },
 
   watch: {
@@ -365,11 +391,32 @@ var cache = {};var _default2 =
         this.angle = 0;
       } else {
         if (this.imageUrl) {var _ref =
+
+
+
+
+
+
+
+
+
+
+
           (cache === null || cache === void 0 ? void 0 : cache[this.imageUrl]) || {},imageWidth = _ref.imageWidth,imageHeight = _ref.imageHeight,imageLeft = _ref.imageLeft,imageTop = _ref.imageTop,scale = _ref.scale,clipX = _ref.clipX,clipY = _ref.clipY,clipWidth = _ref.clipWidth,clipHeight = _ref.clipHeight,path = _ref.path;
           if (path != this.image) {
             this.image = this.imageUrl;
           } else {
-            this.setDiffData({ imageWidth: imageWidth, imageHeight: imageHeight, imageLeft: imageLeft, imageTop: imageTop, scale: scale, clipX: clipX, clipY: clipY, clipWidth: clipWidth, clipHeight: clipHeight });
+            this.setDiffData({
+              imageWidth: imageWidth,
+              imageHeight: imageHeight,
+              imageLeft: imageLeft,
+              imageTop: imageTop,
+              scale: scale,
+              clipX: clipX,
+              clipY: clipY,
+              clipWidth: clipWidth,
+              clipHeight: clipHeight });
+
           }
 
         }
@@ -385,22 +432,34 @@ var cache = {};var _default2 =
 
       // immediate: true,
     },
-    clipSize: function clipSize(_ref2) {var widthVal = _ref2.widthVal,heightVal = _ref2.heightVal;var
-      minWidth = this.minWidth,minHeight = this.minHeight;
+    clipSize: function clipSize(_ref2)
+
+
+    {var widthVal = _ref2.widthVal,heightVal = _ref2.heightVal;var
+
+      minWidth =
+
+      this.minWidth,minHeight = this.minHeight;
       minWidth = minWidth / 2;
       minHeight = minHeight / 2;
       if (widthVal < minWidth) {
-        this.setDiffData({ clipWidth: minWidth });
+        this.setDiffData({
+          clipWidth: minWidth });
+
       }
       if (heightVal < minHeight) {
-        this.setDiffData({ clipHeight: minHeight });
+        this.setDiffData({
+          clipHeight: minHeight });
+
       }
       this.calcClipSize();
     },
     angle: function angle(val) {
       this.animation = true;
       this.moveStop();var
-      isLimitMove = this.isLimitMove;
+
+      isLimitMove =
+      this.isLimitMove;
       if (isLimitMove && val % 90) {
         this.setDiffData({
           angle: Math.round(val / 90) * 90 });
@@ -416,7 +475,9 @@ var cache = {};var _default2 =
             animation: false });
 
         }, 260);
-        this.setDiffData({ animationTimer: animationTimer });
+        this.setDiffData({
+          animationTimer: animationTimer });
+
         this.animationTimer = animationTimer;
       }
     },
@@ -486,8 +547,28 @@ var cache = {};var _default2 =
             _this3.imgMarginDetectionScale();
             _this3.$emit('ready', res);
           }var
-          imageWidth = _this3.imageWidth,imageHeight = _this3.imageHeight,imageLeft = _this3.imageLeft,imageTop = _this3.imageTop,scale = _this3.scale,clipX = _this3.clipX,clipY = _this3.clipY,clipWidth = _this3.clipWidth,clipHeight = _this3.clipHeight;
-          cache[url] = Object.assign(res, { imageWidth: imageWidth, imageHeight: imageHeight, imageLeft: imageLeft, imageTop: imageTop, scale: scale, clipX: clipX, clipY: clipY, clipWidth: clipWidth, clipHeight: clipHeight });
+
+          imageWidth =
+
+
+
+
+
+
+
+
+          _this3.imageWidth,imageHeight = _this3.imageHeight,imageLeft = _this3.imageLeft,imageTop = _this3.imageTop,scale = _this3.scale,clipX = _this3.clipX,clipY = _this3.clipY,clipWidth = _this3.clipWidth,clipHeight = _this3.clipHeight;
+          cache[url] = Object.assign(res, {
+            imageWidth: imageWidth,
+            imageHeight: imageHeight,
+            imageLeft: imageLeft,
+            imageTop: imageTop,
+            scale: scale,
+            clipX: clipX,
+            clipY: clipY,
+            clipWidth: clipWidth,
+            clipHeight: clipHeight });
+
         },
         fail: function fail(err) {
           _this3.imgComputeSize();
@@ -499,7 +580,12 @@ var cache = {};var _default2 =
 
     },
     setClipInfo: function setClipInfo() {var
-      width = this.width,height = this.height,sysinfo = this.sysinfo,canvasId = this.canvasId;
+
+      width =
+
+
+
+      this.width,height = this.height,sysinfo = this.sysinfo,canvasId = this.canvasId;
       var clipWidth = width / 2;
       var clipHeight = height / 2;
       var clipY = (sysinfo.windowHeight - clipHeight) / 2;
@@ -517,7 +603,13 @@ var cache = {};var _default2 =
       this.imageTop = imageTop;
     },
     setClipCenter: function setClipCenter() {var
-      sysInfo = this.sysInfo,clipHeight = this.clipHeight,clipWidth = this.clipWidth,imageTop = this.imageTop,imageLeft = this.imageLeft;
+
+      sysInfo =
+
+
+
+
+      this.sysInfo,clipHeight = this.clipHeight,clipWidth = this.clipWidth,imageTop = this.imageTop,imageLeft = this.imageLeft;
       var sys = sysInfo || uni.getSystemInfoSync();
       var clipY = (sys.windowHeight - clipHeight) * 0.5;
       var clipX = (sys.windowWidth - clipWidth) * 0.5;
@@ -527,7 +619,13 @@ var cache = {};var _default2 =
       this.clipX = clipX;
     },
     calcClipSize: function calcClipSize() {var
-      clipHeight = this.clipHeight,clipWidth = this.clipWidth,sysinfo = this.sysinfo,clipX = this.clipX,clipY = this.clipY;
+
+      clipHeight =
+
+
+
+
+      this.clipHeight,clipWidth = this.clipWidth,sysinfo = this.sysinfo,clipX = this.clipX,clipY = this.clipY;
       if (clipWidth > sysinfo.windowWidth) {
         this.setDiffData({
           clipWidth: sysinfo.windowWidth });
@@ -549,21 +647,35 @@ var cache = {};var _default2 =
       }
     },
     cutDetectionPosition: function cutDetectionPosition() {var _this4 = this;var
-      clipX = this.clipX,clipY = this.clipY,sysinfo = this.sysinfo,clipHeight = this.clipHeight,clipWidth = this.clipWidth;
+
+      clipX =
+
+
+
+
+      this.clipX,clipY = this.clipY,sysinfo = this.sysinfo,clipHeight = this.clipHeight,clipWidth = this.clipWidth;
       var cutDetectionPositionTop = function cutDetectionPositionTop() {
         if (clipY < 0) {
-          _this4.setDiffData({ clipY: 0 });
+          _this4.setDiffData({
+            clipY: 0 });
+
         }
         if (clipY > sysinfo.windowHeight - clipHeight) {
-          _this4.setDiffData({ clipY: sysinfo.windowHeight - clipHeight });
+          _this4.setDiffData({
+            clipY: sysinfo.windowHeight - clipHeight });
+
         }
       },
       cutDetectionPositionLeft = function cutDetectionPositionLeft() {
         if (clipX < 0) {
-          _this4.setDiffData({ clipX: 0 });
+          _this4.setDiffData({
+            clipX: 0 });
+
         }
         if (clipX > sysinfo.windowWidth - clipWidth) {
-          _this4.setDiffData({ clipX: sysinfo.windowWidth - clipWidth });
+          _this4.setDiffData({
+            clipX: sysinfo.windowWidth - clipWidth });
+
         }
       };
       if (clipY === null && clipX === null) {
@@ -589,6 +701,9 @@ var cache = {};var _default2 =
       }
     },
     imgComputeSize: function imgComputeSize(width, height) {var _calcImageSize =
+
+
+
       (0, _utils.calcImageSize)(width, height, this),imageWidth = _calcImageSize.imageWidth,imageHeight = _calcImageSize.imageHeight;
       this.imageWidth = imageWidth;
       this.imageHeight = imageHeight;
@@ -600,6 +715,10 @@ var cache = {};var _default2 =
     },
     imgMarginDetectionPosition: function imgMarginDetectionPosition(scale) {
       if (!this.isLimitMove) return;var _calcImageOffset =
+
+
+
+
       (0, _utils.calcImageOffset)(this, scale),currentScale = _calcImageOffset.scale,left = _calcImageOffset.left,top = _calcImageOffset.top;
       this.setDiffData({
         imageLeft: left,
@@ -619,11 +738,15 @@ var cache = {};var _default2 =
       clearTimeout(this.timeClipCenter);
       var timeClipCenter = setTimeout(function () {
         if (!_this5.animation) {
-          _this5.setDiffData({ animation: true });
+          _this5.setDiffData({
+            animation: true });
+
         }
         _this5.setClipCenter();
       }, 800);
-      this.setDiffData({ timeClipCenter: timeClipCenter });
+      this.setDiffData({
+        timeClipCenter: timeClipCenter });
+
     },
     clipTouchStart: function clipTouchStart(event) {
 
@@ -638,10 +761,17 @@ var cache = {};var _default2 =
       }
       var currentX = event.touches[0].clientX;
       var currentY = event.touches[0].clientY;var
-      clipX = this.clipX,clipY = this.clipY,clipWidth = this.clipWidth,clipHeight = this.clipHeight;
+
+      clipX =
+
+
+
+      this.clipX,clipY = this.clipY,clipWidth = this.clipWidth,clipHeight = this.clipHeight;
       var corner = (0, _utils.determineDirection)(clipX, clipY, clipWidth, clipHeight, currentX, currentY);
       this.moveDuring();
-      if (!corner) {return;}
+      if (!corner) {
+        return;
+      }
       this.clipStart = {
         width: clipWidth,
         height: clipHeight,
@@ -671,9 +801,16 @@ var cache = {};var _default2 =
         return;
 
       }var
-      flagClipTouch = this.flagClipTouch,throttleFlag = this.throttleFlag;
+
+      flagClipTouch =
+
+      this.flagClipTouch,throttleFlag = this.throttleFlag;
       if (flagClipTouch && throttleFlag) {var
-        isLockRatio = this.isLockRatio,isLockHeight = this.isLockHeight,isLockWidth = this.isLockWidth;
+
+        isLockRatio =
+
+
+        this.isLockRatio,isLockHeight = this.isLockHeight,isLockWidth = this.isLockWidth;
         if (isLockRatio && (isLockWidth || isLockHeight)) return;
         this.setDiffData({
           throttleFlag: false });
@@ -681,7 +818,12 @@ var cache = {};var _default2 =
         this.throttle();
         var clipData = (0, _utils.clipTouchMoveOfCalculate)(this, event);
         if (clipData) {var
-          width = clipData.width,height = clipData.height,clipX = clipData.clipX,clipY = clipData.clipY;
+
+          width =
+
+
+
+          clipData.width,height = clipData.height,clipX = clipData.clipX,clipY = clipData.clipY;
           if (!isLockWidth && !isLockHeight) {
             this.setDiffData({
               clipWidth: width,
@@ -714,7 +856,10 @@ var cache = {};var _default2 =
 
 
       this.flagEndTouch = false;var
-      imageLeft = this.imageLeft,imageTop = this.imageTop;
+
+      imageLeft =
+
+      this.imageLeft,imageTop = this.imageTop;
       var clientXForLeft = e.touches[0].clientX;
       var clientYForLeft = e.touches[0].clientY;
 
@@ -732,8 +877,7 @@ var cache = {};var _default2 =
         var height = Math.abs(clientYForLeft - clientYForRight);
         var hypotenuseLength = (0, _utils.calcPythagoreanTheorem)(width, height);
 
-        touchRelative = [
-        {
+        touchRelative = [{
           x: clientXForLeft - imageLeft,
           y: clientYForLeft - imageTop },
 
@@ -750,14 +894,22 @@ var cache = {};var _default2 =
 
 
 
-      flagEndTouch = this.flagEndTouch,throttleFlag = this.throttleFlag;
+
+      flagEndTouch =
+
+      this.flagEndTouch,throttleFlag = this.throttleFlag;
       if (flagEndTouch || !throttleFlag) return;
       var clientXForLeft = e.touches[0].clientX;
       var clientYForLeft = e.touches[0].clientY;
-      this.setDiffData({ throttleFlag: false });
+      this.setDiffData({
+        throttleFlag: false });
+
       this.throttle();
       this.moveDuring();
       if (e.touches.length === 1) {var _imageTouchMoveOfCalc =
+
+
+
         (0, _utils.imageTouchMoveOfCalcOffset)(this, clientXForLeft, clientYForLeft),imageLeft = _imageTouchMoveOfCalc.left,imageTop = _imageTouchMoveOfCalc.top;
         this.setDiffData({
           imageLeft: imageLeft,
@@ -797,7 +949,10 @@ var cache = {};var _default2 =
     uploadImage: function uploadImage() {var _this6 = this;
       var itemList = Object.entries(this.source);
       var sizeType = ['original', 'compressed'];
-      var success = function success(_ref3) {var a = _ref3.tempFilePaths,b = _ref3.tempFiles;
+      var success = function success(_ref3)
+
+
+      {var a = _ref3.tempFilePaths,b = _ref3.tempFiles;
         _this6.image = a ? a[0] : b[0].path;
       };
       var _uploadImage = function _uploadImage(type) {
@@ -822,7 +977,9 @@ var cache = {};var _default2 =
       if (itemList.length > 1) {
         uni.showActionSheet({
           itemList: itemList.map(function (v) {return v[1];}),
-          success: function success(_ref4) {var i = _ref4.tapIndex;
+          success: function success(_ref4)
+
+          {var i = _ref4.tapIndex;
             _uploadImage(itemList[i][0]);
           } });
 
@@ -851,7 +1008,9 @@ var cache = {};var _default2 =
 
         return;
       }var
-      rotateAngle = this.rotateAngle;
+
+      rotateAngle =
+      this.rotateAngle;
       var originAngle = this.angle;
       var type = event.currentTarget.dataset.type;
       if (type === 'along') {
@@ -872,7 +1031,25 @@ var cache = {};var _default2 =
       uni.showLoading({
         title: 'Loading...' });var
 
-      canvasHeight = this.canvasHeight,canvasWidth = this.canvasWidth,clipHeight = this.clipHeight,clipWidth = this.clipWidth,ctx = this.ctx,scale = this.scale,imageLeft = this.imageLeft,imageTop = this.imageTop,clipX = this.clipX,clipY = this.clipY,angle = this.angle,dpr = this.scaleRatio,image = this.image,quality = this.quality,fileType = this.fileType,imageType = this.type,canvasId = this.canvasId;
+
+      canvasHeight =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      this.canvasHeight,canvasWidth = this.canvasWidth,clipHeight = this.clipHeight,clipWidth = this.clipWidth,ctx = this.ctx,scale = this.scale,imageLeft = this.imageLeft,imageTop = this.imageTop,clipX = this.clipX,clipY = this.clipY,angle = this.angle,dpr = this.scaleRatio,image = this.image,quality = this.quality,fileType = this.fileType,imageType = this.type,canvasId = this.canvasId;
       var draw = function draw() {
         var imageWidth = _this7.imageWidth * scale * dpr;
         var imageHeight = _this7.imageHeight * scale * dpr;

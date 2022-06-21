@@ -1,7 +1,8 @@
 <template>
 	<view class="content" @touchmove.stop @click.native="touchAvatarBg(false)">
 		<head-bar></head-bar>
-		<image src="https://7463-tcb-htqvbkbv9bxahty751ffe-b59e59-1305947755.tcb.qcloud.la/background-image.png" mode="aspectFit" class="background-image"></image>
+		<image src="https://7463-tcb-htqvbkbv9bxahty751ffe-b59e59-1305947755.tcb.qcloud.la/background-image.png"
+			mode="aspectFit" class="background-image"></image>
 
 		<view class="hideCanvas">
 			<canvas class="default_PosterCanvasId"
@@ -13,10 +14,9 @@
 			<view class="avatar-div" id="avatar-container" @click.stop>
 				<image class="img" id="avatar-img" :src="avatarImage || defaultImage" @click="touchAvatarBg(false)">
 				</image>
-				<image v-if="currentImage && currentImage.image_url" class="avatar-default"
-					:class="{ 'avatar-border': showBorder && currentImage.drag_state }" :style="{
-						top: maskCenterY - maskSize / 2 - 3 + 'px',
-						left: maskCenterX - maskSize / 2 - 3 + 'px',
+				<image v-if="currentImage && currentImage.image_url" class="avatar-default" :style="{
+						top: maskCenterY - maskSize / 2 - 2 + 'px',
+						left: maskCenterX - maskSize / 2 - 2 + 'px',
 						transform: 'rotate(' + rotate + 'deg)' + 'scale(' + scale + ')'
 					}" id="mask-img" :src="currentImage.image_url" @click="touchAvatarBg(false)"></image>
 				<!-- 				<view class="drag-div"
@@ -26,28 +26,32 @@
 				</view> -->
 			</view>
 		</view>
-		
+
 		<div class="load-image-buttons">
 			<div class="button-container">
-				<button class="load-image-button" hover-class="load-image-button-hover" open-type="getUserInfo" @click.stop="getUserProfile('createImages')"><span>Fetch</span></button>
+				<button class="load-image-button" hover-class="load-image-button-hover" open-type="getUserInfo"
+					@click.stop="getUserProfile('createImages')"><span>Fetch</span></button>
 				<div class="button-descripsion">匹配当前头像<br>Fetch current avatar</div>
 			</div>
 			<div class="button-container">
-				<button v-if="userInfo" class="load-image-button" hover-class="load-image-button-hover" @click.stop="chooseImages('selectedImage')"><span>Select</span></button>
-				<button v-else class="load-image-button" hover-class="load-image-button-hover" open-type="getUserInfo" @click.stop="getUserProfile('selectedImage')"><span>Select</span></button>
+				<button v-if="userInfo" class="load-image-button" hover-class="load-image-button-hover"
+					@click.stop="chooseImages('selectedImage')"><span>Select</span></button>
+				<button v-else class="load-image-button" hover-class="load-image-button-hover" open-type="getUserInfo"
+					@click.stop="getUserProfile('selectedImage')"><span>Select</span></button>
 				<div class="button-descripsion">从相册选择<br>Select from albums</div>
 			</div>
 		</div>
-		
+
 		<l-clipper v-if="showClipper" :image-url="avatarImage" @success="avatarImage = $event.url; showClipper = false"
-			@cancel="showClipper = false" />
-			
+			@cancel="avatarImage = null; showClipper = false" />
+
 		<view class="image-selector" @click.stop>
 			<scroll-view scroll-x style="white-space: nowrap; width: 90%;">
 				<view class="image-div">
-					<view class="image-margin" v-for="(info, index) in imageList" :key="info._id"
-						@click="imageClick(info, index)">
-						<image :src="info.image_url" :class="{'image-border': currentIndex === index}"></image>
+					<view class="image-margin" @click="currentIndex = -1; currentImage = {}">
+						<div class="place-holder" :class="{'grey-border': currentIndex === -1}">
+							<image src="../../static/icon/cancel-icon.png" style="width: 40px; height: 40px;"></image>
+						</div>
 					</view>
 					<view class="image-margin" v-for="(info, index) in imageList" :key="info._id"
 						@click="imageClick(info, index)">
@@ -56,7 +60,7 @@
 				</view>
 			</scroll-view>
 		</view>
-		
+
 		<button class="download-button" hover-class="download-button-hover" @click.stop="shareFc()">
 			<span>Download</span>
 			<image src="@/static/icon/download-icon.png" mode="aspectFit"></image>
@@ -128,14 +132,14 @@
 		},
 		onShareAppMessage() {
 			return {
-				title: "UNNC 2022 Graduation",
+				title: getApp().globalData.shareTitle,
 				imageUrl: "/static/images/share-card.png",
 				path: "/pages/main/index"
 			}
 		},
 		onShareTimeline() {
 			return {
-				title: "UNNC 2022 Graduation",
+				title: getApp().globalData.shareTitle,
 				imageUrl: "/static/images/share-card.png",
 				path: "/pages/main/index"
 			}
@@ -551,6 +555,7 @@
 						if (type === 'createImages') {
 							_this.avatarImage = info.substring(0, info.lastIndexOf('/') + 1) + '0';
 							uni.setStorageSync('avatar_image', _this.avatarImage);
+							_this.showClipper = true
 						}
 						_this.postUserInfo(result.userInfo.nickName, type);
 					},
@@ -569,14 +574,15 @@
 			 * 存储用户数据
 			 */
 			async postUserInfo(nickName, type) {
+				if (this.userInfo) {
+					return
+				}
 				let that = this;
 				this.code = await this.getWeixinCode();
-				if (type === 'userLogin' || type === 'selectedImage') {
-					uni.showLoading({
-						title: 'Loading...',
-						mask: true
-					});
-				}
+				uni.showLoading({
+					title: 'Loading...',
+					mask: true
+				});
 				uniCloud
 					.callFunction({
 						name: 'user_mpweixin',
@@ -584,16 +590,14 @@
 							code: that.code,
 							avatarImage: that.avatarImage,
 							nickName,
-							type: type === 'selectedImage' ? 'userLogin' : type
+							type: 'userLogin'
 						}
 					})
 					.then(res => {
 						uni.setStorageSync('user_info', res.result);
 						this.userInfo = res.result;
-						if (type === 'userLogin') {
-							uni.hideLoading();
-							this.navOriginal();
-						} else if (type === 'selectedImage') {
+						uni.hideLoading();
+						if (type === 'selectedImage') {
 							this.chooseImages(type);
 						}
 					})
@@ -610,7 +614,6 @@
 			 * 选择图片
 			 */
 			chooseImages(type) {
-				uni.hideLoading();
 				uni.chooseImage({
 					count: 1, //默认9
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -644,11 +647,6 @@
 						// 			.then();
 						// 	});
 					}
-				});
-			},
-			navOriginal() {
-				uni.navigateTo({
-					url: '/pages/original-avatar/index'
 				});
 			},
 		}
@@ -689,6 +687,16 @@
 				display: flex;
 				align-items: center;
 
+				.place-holder {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					box-sizing: border-box;
+					width: 120rpx;
+					height: 120rpx;
+					background-color: #ffffff;
+				}
+
 				image {
 					box-sizing: border-box;
 					width: 120rpx;
@@ -701,6 +709,10 @@
 				}
 
 				.image-border {
+					border: 5rpx solid #ffffff;
+				}
+				
+				.grey-border {
 					border: 5rpx solid $uni-shadow-color;
 				}
 			}
@@ -776,19 +788,19 @@
 				}
 			}
 		}
-		
+
 		.load-image-buttons {
 			display: flex;
 			justify-content: space-between;
 			width: 80vw;
 			margin: 30px 0;
-			
+
 			.button-container {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				
+
 				.load-image-button {
 					width: 120px;
 					height: 35px;
@@ -800,12 +812,12 @@
 					margin-bottom: 10px;
 					transition: 0.3s;
 				}
-				
+
 				.load-image-button-hover {
 					transform: scale(0.95);
 					transition: 0.3s;
 				}
-				
+
 				.button-descripsion {
 					text-align: center;
 					font-size: 12px;
@@ -823,17 +835,17 @@
 			font-size: 16px;
 			color: $uni-text-color-black;
 			transition: 0.3s;
-			
+
 			span {
 				margin-right: 15px;
 			}
-			
+
 			image {
 				width: 18px;
 				height: 18px;
 			}
 		}
-		
+
 		.download-button-hover {
 			transform: scale(0.95);
 			transition: 0.3s;

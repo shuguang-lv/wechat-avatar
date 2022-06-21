@@ -166,14 +166,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   onShareAppMessage: function onShareAppMessage() {
     return {
-      title: "UNNC 2022 Graduation",
+      title: getApp().globalData.shareTitle,
       imageUrl: "/static/images/share-card.png",
       path: "/pages/save-success/index" };
 
   },
   onShareTimeline: function onShareTimeline() {
     return {
-      title: "UNNC 2022 Graduation",
+      title: getApp().globalData.shareTitle,
       imageUrl: "/static/images/share-card.png",
       path: "/pages/save-success/index" };
 

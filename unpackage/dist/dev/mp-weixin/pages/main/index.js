@@ -127,7 +127,13 @@ var render = function() {
     }
 
     _vm.e1 = function($event) {
+      _vm.avatarImage = null
       _vm.showClipper = false
+    }
+
+    _vm.e2 = function($event) {
+      _vm.currentIndex = -1
+      _vm.currentImage = {}
     }
   }
 }
@@ -164,6 +170,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni, uniCloud) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 10));
+
+
+
+
 
 
 
@@ -293,14 +303,14 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
   },
   onShareAppMessage: function onShareAppMessage() {
     return {
-      title: "UNNC 2022 Graduation",
+      title: getApp().globalData.shareTitle,
       imageUrl: "/static/images/share-card.png",
       path: "/pages/main/index" };
 
   },
   onShareTimeline: function onShareTimeline() {
     return {
-      title: "UNNC 2022 Graduation",
+      title: getApp().globalData.shareTitle,
       imageUrl: "/static/images/share-card.png",
       path: "/pages/main/index" };
 
@@ -716,6 +726,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                     if (type === 'createImages') {
                       _this.avatarImage = info.substring(0, info.lastIndexOf('/') + 1) + '0';
                       uni.setStorageSync('avatar_image', _this.avatarImage);
+                      _this.showClipper = true;
                     }
                     _this.postUserInfo(result.userInfo.nickName, type);
                   },
@@ -733,15 +744,16 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
         * @param {Object} nickName
         * 存储用户数据
         */
-    postUserInfo: function postUserInfo(nickName, type) {var _this10 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var that;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
-                that = _this10;_context4.next = 3;return (
-                  _this10.getWeixinCode());case 3:_this10.code = _context4.sent;
-                if (type === 'userLogin' || type === 'selectedImage') {
-                  uni.showLoading({
-                    title: 'Loading...',
-                    mask: true });
+    postUserInfo: function postUserInfo(nickName, type) {var _this10 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var that;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:if (!
+                _this10.userInfo) {_context4.next = 2;break;}return _context4.abrupt("return");case 2:
 
-                }
+
+                that = _this10;_context4.next = 5;return (
+                  _this10.getWeixinCode());case 5:_this10.code = _context4.sent;
+                uni.showLoading({
+                  title: 'Loading...',
+                  mask: true });
+
                 uniCloud.
                 callFunction({
                   name: 'user_mpweixin',
@@ -749,16 +761,14 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                     code: that.code,
                     avatarImage: that.avatarImage,
                     nickName: nickName,
-                    type: type === 'selectedImage' ? 'userLogin' : type } }).
+                    type: 'userLogin' } }).
 
 
                 then(function (res) {
                   uni.setStorageSync('user_info', res.result);
                   _this10.userInfo = res.result;
-                  if (type === 'userLogin') {
-                    uni.hideLoading();
-                    _this10.navOriginal();
-                  } else if (type === 'selectedImage') {
+                  uni.hideLoading();
+                  if (type === 'selectedImage') {
                     _this10.chooseImages(type);
                   }
                 }).
@@ -769,13 +779,12 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                     position: 'center',
                     title: "Fail to store user information" });
 
-                });case 6:case "end":return _context4.stop();}}}, _callee4);}))();
+                });case 8:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     /**
         * 选择图片
         */
     chooseImages: function chooseImages(type) {var _this11 = this;
-      uni.hideLoading();
       uni.chooseImage({
         count: 1, //默认9
         sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -809,11 +818,6 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
           // 			.then();
           // 	});
         } });
-
-    },
-    navOriginal: function navOriginal() {
-      uni.navigateTo({
-        url: '/pages/original-avatar/index' });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 9)["default"]))

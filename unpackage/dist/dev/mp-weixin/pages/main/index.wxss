@@ -60,6 +60,15 @@
   display: flex;
   align-items: center;
 }
+.content .image-selector .image-div .place-holder.data-v-255f3f96 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 120rpx;
+  height: 120rpx;
+  background-color: #ffffff;
+}
 .content .image-selector .image-div image.data-v-255f3f96 {
   box-sizing: border-box;
   width: 120rpx;
@@ -70,6 +79,9 @@
   margin-right: 30rpx;
 }
 .content .image-selector .image-div .image-border.data-v-255f3f96 {
+  border: 5rpx solid #ffffff;
+}
+.content .image-selector .image-div .grey-border.data-v-255f3f96 {
   border: 5rpx solid #808080;
 }
 .content .image-card.data-v-255f3f96 {
