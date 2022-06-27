@@ -9029,9 +9029,9 @@ internalMixin(Vue);
         "169.254.117.220",
         "10.201.119.146"
     ],
-    "debugPort": 5103,
+    "debugPort": 2958,
     "initialLaunchType": "remote",
-    "servePort": 5104,
+    "servePort": 2959,
     "skipFiles": [
         "<node_internals>/**/*.js",
         "E:/HBuilderX/plugins/unicloud/**/*.js"

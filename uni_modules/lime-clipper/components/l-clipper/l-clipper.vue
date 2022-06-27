@@ -4,6 +4,8 @@
 			@touchmove.stop.prevent="clipTouchMove" @touchend.stop.prevent="clipTouchEnd">
 			<view class="lime-clipper__content" :style="clipStyle">
 				<view class="lime-clipper__edge" v-for="(item, index) in [0, 0, 0, 0]" :key="index"></view>
+				<image :src="currentImage" style="position: absolute;top: 0;left: 0;"
+					:style="{width: clipWidth + 'px', height: clipHeight + 'px'}"></image>
 			</view>
 		</view>
 		<image class="lime-clipper-image" @error="imageLoad" @load="imageLoad" @touchstart="imageTouchStart"
@@ -177,6 +179,10 @@
 					message: '从微信中选择'
 					// #endif
 				})
+			},
+			currentImage: {
+				type: String,
+				default: ''
 			}
 		},
 		data() {

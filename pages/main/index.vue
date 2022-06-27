@@ -42,7 +42,8 @@
 			</div>
 		</div>
 
-		<l-clipper v-if="showClipper" :image-url="avatarImage" @success="avatarImage = $event.url; showClipper = false"
+		<l-clipper v-if="showClipper" :image-url="avatarImage" :current-image="currentImage.image_url"
+			@success="avatarImage = $event.url; showClipper = false"
 			@cancel="avatarImage = null; showClipper = false" />
 
 		<view class="image-selector" @click.stop>
@@ -711,7 +712,7 @@
 				.image-border {
 					border: 5rpx solid #ffffff;
 				}
-				
+
 				.grey-border {
 					border: 5rpx solid $uni-shadow-color;
 				}

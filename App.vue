@@ -73,6 +73,11 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: 0;
+		border: none;
 		margin: 0;
+	}
+	
+	button::after {
+	 border: none;
 	}
 </style>
