@@ -28,7 +28,7 @@
 			 */
 			getShareInfo() {
 				uni.showLoading({
-					title: '加载中',
+					title: 'Loading...',
 					mask: true
 				});
 				uniCloud
@@ -47,7 +47,7 @@
 					})
 					.catch(err => {
 						uni.showModal({
-							content: err.message || '请求服务失败',
+							content: err.message || 'Fail to request service',
 							showCancel: false
 						});
 					})

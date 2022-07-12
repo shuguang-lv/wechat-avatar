@@ -766,8 +766,8 @@ function populateParameters(result) {var _result$brand =
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.4.15",
-    uniRuntimeVersion: "3.4.15",
+    uniCompileVersion: "3.4.18",
+    uniRuntimeVersion: "3.4.18",
     uniPlatform: undefined || "mp-weixin",
     deviceBrand: deviceBrand,
     deviceModel: model,
@@ -9027,11 +9027,11 @@ internalMixin(Vue);
     "address": [
         "127.0.0.1",
         "169.254.117.220",
-        "10.201.119.146"
+        "192.168.10.108"
     ],
-    "debugPort": 2958,
+    "debugPort": 3426,
     "initialLaunchType": "remote",
-    "servePort": 2959,
+    "servePort": 3427,
     "skipFiles": [
         "<node_internals>/**/*.js",
         "E:/HBuilderX/plugins/unicloud/**/*.js"

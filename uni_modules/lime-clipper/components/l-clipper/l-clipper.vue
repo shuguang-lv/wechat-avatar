@@ -249,7 +249,7 @@
 				return `
 				width: ${imageWidth ? imageWidth + 'px' : 'auto'};
 				height: ${imageHeight ? imageHeight + 'px' : 'auto'};
-				transform: translate3d(${imageLeft - imageWidth / 2}px, ${imageTop - imageHeight / 2}px, 0) scale(${scale}) rotate(${angle}deg);
+				transform: translate3d(${imageLeft - imageWidth / 2 + 1}px, ${imageTop - imageHeight / 2 + 0.5}px, 0) scale(${scale}) rotate(${angle}deg);
 				transition-duration: ${animation ? 0.35 : 0}s
 			`
 			},

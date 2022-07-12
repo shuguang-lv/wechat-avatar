@@ -365,7 +365,7 @@ var cache = {};var _default2 =
       return "\n\t\t\twidth: ".concat(
       imageWidth ? imageWidth + 'px' : 'auto', ";\n\t\t\theight: ").concat(
       imageHeight ? imageHeight + 'px' : 'auto', ";\n\t\t\ttransform: translate3d(").concat(
-      imageLeft - imageWidth / 2, "px, ").concat(imageTop - imageHeight / 2, "px, 0) scale(").concat(scale, ") rotate(").concat(angle, "deg);\n\t\t\ttransition-duration: ").concat(
+      imageLeft - imageWidth / 2 + 1, "px, ").concat(imageTop - imageHeight / 2 + 0.5, "px, 0) scale(").concat(scale, ") rotate(").concat(angle, "deg);\n\t\t\ttransition-duration: ").concat(
       animation ? 0.35 : 0, "s\n\t\t");
 
     },

@@ -9,9 +9,11 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 5);
+
+
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/save-success/index.vue */ 38));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
-createPage(_index.default);
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/save-success/index.vue */ 38));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // @ts-ignore
+wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;createPage(_index.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -168,14 +170,14 @@ __webpack_require__.r(__webpack_exports__);
     return {
       title: getApp().globalData.shareTitle,
       imageUrl: "/static/images/share-card.png",
-      path: "/pages/save-success/index" };
+      path: "/pages/welcome/index" };
 
   },
   onShareTimeline: function onShareTimeline() {
     return {
       title: getApp().globalData.shareTitle,
       imageUrl: "/static/images/share-card.png",
-      path: "/pages/save-success/index" };
+      path: "/pages/welcome/index" };
 
   },
   methods: {

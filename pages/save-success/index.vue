@@ -36,14 +36,14 @@
 			return {
 				title: getApp().globalData.shareTitle,
 				imageUrl: "/static/images/share-card.png",
-				path: "/pages/save-success/index"
+				path: "/pages/welcome/index"
 			}
 		},
 		onShareTimeline() {
 			return {
 				title: getApp().globalData.shareTitle,
 				imageUrl: "/static/images/share-card.png",
-				path: "/pages/save-success/index"
+				path: "/pages/welcome/index"
 			}
 		},
 		methods: {

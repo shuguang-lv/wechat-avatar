@@ -9,9 +9,11 @@
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 5);
+
+
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/main/index.vue */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
-createPage(_index.default);
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/main/index.vue */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // @ts-ignore
+wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;createPage(_index.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
@@ -306,14 +308,14 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
     return {
       title: getApp().globalData.shareTitle,
       imageUrl: "/static/images/share-card.png",
-      path: "/pages/main/index" };
+      path: "/pages/welcome/index" };
 
   },
   onShareTimeline: function onShareTimeline() {
     return {
       title: getApp().globalData.shareTitle,
       imageUrl: "/static/images/share-card.png",
-      path: "/pages/main/index" };
+      path: "/pages/welcome/index" };
 
   },
   methods: {
@@ -602,6 +604,13 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
                         });
                       } });
 
+                  },
+                  fail: function fail() {
+                    uni.showToast({
+                      title: 'Fail to export avatar',
+                      icon: 'none' });
+
+                    uni.hideLoading();
                   } });case 10:case "end":return _context2.stop();}}}, _callee2);}))();
 
     },
@@ -620,6 +629,10 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
           _this8.savefile();
         },
         fail: function fail(res) {
+          uni.showToast({
+            title: 'Fail to export avatar',
+            icon: 'none' });
+
           uni.hideLoading();
         } },
 
@@ -660,6 +673,13 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
             //用户已经授权过了
             _self.saveImgToLocal();
           }
+        },
+        fail: function fail() {
+          uni.showToast({
+            title: 'Fail to get your phone settings',
+            icon: 'none' });
+
+          uni.hideLoading();
         } });
 
     },
@@ -682,7 +702,7 @@ var _QSSharePoster = __webpack_require__(/*! @/util/QS-SharePoster/QS-SharePoste
         fail: function fail(e) {
           uni.hideLoading();
           uni.showToast({
-            title: 'Fail to save',
+            title: 'Fail to save avatar',
             icon: 'none' });
 
         } });

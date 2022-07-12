@@ -15,8 +15,8 @@
 				<image class="img" id="avatar-img" :src="avatarImage || defaultImage" @click="touchAvatarBg(false)">
 				</image>
 				<image v-if="currentImage && currentImage.image_url" class="avatar-default" :style="{
-						top: maskCenterY - maskSize / 2 - 2 + 'px',
-						left: maskCenterX - maskSize / 2 - 2 + 'px',
+						top: maskCenterY - maskSize / 2 - 3 + 'px',
+						left: maskCenterX - maskSize / 2 - 3 + 'px',
 						transform: 'rotate(' + rotate + 'deg)' + 'scale(' + scale + ')'
 					}" id="mask-img" :src="currentImage.image_url" @click="touchAvatarBg(false)"></image>
 				<!-- 				<view class="drag-div"
@@ -135,14 +135,14 @@
 			return {
 				title: getApp().globalData.shareTitle,
 				imageUrl: "/static/images/share-card.png",
-				path: "/pages/main/index"
+				path: "/pages/welcome/index"
 			}
 		},
 		onShareTimeline() {
 			return {
 				title: getApp().globalData.shareTitle,
 				imageUrl: "/static/images/share-card.png",
-				path: "/pages/main/index"
+				path: "/pages/welcome/index"
 			}
 		},
 		methods: {
@@ -431,6 +431,13 @@
 								});
 							}
 						});
+					},
+					fail: () => {
+						uni.showToast({
+							title: 'Fail to export avatar',
+							icon: 'none'
+						});
+						uni.hideLoading();
 					}
 				});
 			},
@@ -449,6 +456,10 @@
 							this.savefile();
 						},
 						fail(res) {
+							uni.showToast({
+								title: 'Fail to export avatar',
+								icon: 'none'
+							});
 							uni.hideLoading();
 						}
 					},
@@ -489,6 +500,13 @@
 							//用户已经授权过了
 							_self.saveImgToLocal();
 						}
+					},
+					fail: () => {
+						uni.showToast({
+							title: 'Fail to get your phone settings',
+							icon: 'none'
+						});
+						uni.hideLoading();
 					}
 				});
 			},
@@ -511,7 +529,7 @@
 					fail: e => {
 						uni.hideLoading();
 						uni.showToast({
-							title: 'Fail to save',
+							title: 'Fail to save avatar',
 							icon: 'none'
 						});
 					}
